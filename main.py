@@ -54,16 +54,17 @@ subjects = {
 
 rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b']
 time_slots = {
-    'H1': {'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
-    'H2': {'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
-    'H3': {'start': 10, 'end': 11},  # 10:00 AM to 11:00 AM
-    'H4': {'start': 11, 'end': 12},  # 11:00 AM to 12:00 PM
-    'H5': {'start': 12, 'end': 13},  # 12:00 PM to 1:00 PM
-    'H6': {'start': 13, 'end': 14},  # 1:00 PM to 2:00 PM
-    'H7': {'start': 14, 'end': 15},  # 2:00 PM to 3:00 PM
-    'H8': {'start': 15, 'end': 16},  # 3:00 PM to 4:00 PM
-    'H9': {'start': 16, 'end': 17},  # 4:00 PM to 5:00 PM
-    'H10': {'start': 17, 'end': 18}  # 5:00 PM to 6:00 PM
+    'H1': {'start': 7, 'end': 8},
+    'H2': {'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
+    'H3': {'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
+    'H4': {'start': 10, 'end': 11},  # 10:00 AM to 11:00 AM
+    'H5': {'start': 11, 'end': 12},  # 11:00 AM to 12:00 PM
+    'H6': {'start': 12, 'end': 13},  # 12:00 PM to 1:00 PM
+    'H7': {'start': 13, 'end': 14},  # 1:00 PM to 2:00 PM
+    'H8': {'start': 14, 'end': 15},  # 2:00 PM to 3:00 PM
+    'H9': {'start': 15, 'end': 16},  # 3:00 PM to 4:00 PM
+    'H10': {'start': 16, 'end': 17},  # 4:00 PM to 5:00 PM
+    'H11': {'start': 17, 'end': 18}  # 5:00 PM to 6:00 PM
 }
 swarm_size = 30
 max_iterations = 100
@@ -108,9 +109,11 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                         time_slots_copy = list(time_slots.keys())
 
                     time_slot = random.choice(time_slots_copy)  # Choose a random time slot from the copied time_slots
-
+                    subj_type=subjects[year][subject]['type']
+                    print("SUBJECT TYPE", subj_type)
                     # If the subject is a lab, block the next 2 time slots
-                    if subjects[year][subject]['type'] == 'lab':
+                    if subj_type == 'lab':
+                        #print("INSIDE LAB")
                         next_time_slot_index = time_slots_copy.index(time_slot) + 1
                         if next_time_slot_index < len(time_slots_copy):
                             blocked_time_slot = time_slots_copy[next_time_slot_index]
@@ -121,12 +124,20 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                             section_time_slots[section].append(blocked_time_slot)
                             time_slots_copy.remove(blocked_time_slot)
                     # If the subject is a lecture, block the next time slot
-                    elif subjects[year][subject]['type'] == 'lec':
-                        next_time_slot_index = time_slots_copy.index(time_slot) + 1
-                        if next_time_slot_index < len(time_slots_copy):
-                            blocked_time_slot = time_slots_copy[next_time_slot_index]
-                            section_time_slots[section].append(blocked_time_slot)
-                            time_slots_copy.remove(blocked_time_slot)
+                    elif subj_type == 'lec':
+                        print("UNITS NG LEC",subjects[year][subject]['units'])
+                        if subjects[year][subject]['units'] == 3:
+                            next_time_slot_index = time_slots_copy.index(time_slot) + 3
+                            if next_time_slot_index < len(time_slots_copy):
+                                blocked_time_slot = time_slots_copy[next_time_slot_index]
+                                section_time_slots[section].append(blocked_time_slot)
+                                time_slots_copy.remove(blocked_time_slot)
+                        elif subjects[year][subject]['units'] == 2:
+                            next_time_slot_index = time_slots_copy.index(time_slot) + 2
+                            if next_time_slot_index < len(time_slots_copy):
+                                blocked_time_slot = time_slots_copy[next_time_slot_index]
+                                section_time_slots[section].append(blocked_time_slot)
+                                time_slots_copy.remove(blocked_time_slot)
 
                     room = random.choice(rooms)
 
@@ -253,15 +264,16 @@ def update_position(particle):
         current_pos_num = convert_to_numeric(current_pos)
         new_pos_num = round(current_pos_num + particle.velocity[i]) % len(num_to_position)
         new_pos = convert_from_numeric(new_pos_num)
-        validated_pos = validate_position(new_pos)
+        validated_pos = validate_position([new_pos])  # Validate the new position as a list
         if validated_pos:
-            new_position.append(validated_pos)
+            new_position.append(validated_pos[0])  # Add the validated position to the new position
         else:
-            # If validation fails, keep the current position unchanged
-            print(f"Invalid position detected at index {i}, skipping update.")
-            new_position.append(current_pos)
+            # If validation fails, adjust the event
+            print(f"Conflict detected at index {i}, adjusting event.")
+            adjusted_event = adjust_event(new_pos)
+            new_position.append(adjusted_event)
+    print("new position(BEFORE RETURN): ", new_position)
     return new_position
-
 
 
 # Global variables to store the mappings
@@ -282,50 +294,53 @@ def convert_from_numeric(num):
 
 
 def validate_position(position):
-    """
-    Validate the position to ensure there are no double bookings and double subjects.
-
-    Parameters:
-    position (list of tuples): A list where each tuple represents a scheduled event,
-                               formatted as (section, subject, professor, time_slot, room).
-
-    Returns:
-    list or None: The validated position if there are no double bookings and double subjects, None otherwise.
-    """
-    if not isinstance(position, list):
-        print("Error: Position is not a list.")
-        return None
-
     professor_schedule = defaultdict(set)
     room_schedule = defaultdict(set)
     section_subjects = defaultdict(set)
 
-    for event in position:
-        section, subject, professor, time_slot, room = event
+    i = 0
+    while i < len(position):
+        section, subject, professor, time_slot, room = position[i]
 
         # Check for double booking for professors
         if professor in professor_schedule and time_slot in professor_schedule[professor]:
             print(f"Double booking detected for professor {professor} at {time_slot}")
-            # Resolve the conflict by adjusting the event
-            event = adjust_event(event)
-            if not event:  # If adjustment fails
+            adjusted_event = adjust_event(position[i])
+            if not adjusted_event:  # If adjustment fails
                 return None
+            position[i] = adjusted_event  # Replace the conflicting event with the adjusted event
         professor_schedule[professor].add(time_slot)
 
         # Check for double booking for rooms
         if room in room_schedule and time_slot in room_schedule[room]:
             print(f"Double booking detected for room {room} at {time_slot}")
-            # Resolve the conflict by adjusting the event
-            event = adjust_event(event)
-            if not event:  # If adjustment fails
+            adjusted_event = adjust_event(position[i])
+            if not adjusted_event:  # If adjustment fails
                 return None
+            position[i] = adjusted_event  # Replace the conflicting event with the adjusted event
         room_schedule[room].add(time_slot)
 
         # Check for double subjects per section
         if subject in section_subjects[section]:
             print(f"Double subject {subject} detected in section {section}")
-            return None
+            del position[i]  # Remove the duplicate subject
+            continue  # Skip the increment of i
         section_subjects[section].add(subject)
+
+        # Validate the duration of each subject based on its units
+        year = get_subject_year(subject)
+        subject_units = subjects[year][subject]['units']
+        subject_type = subjects[year][subject]['type']
+        expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
+        actual_duration = time_slots[time_slot]['end'] - time_slots[time_slot]['start']
+        if actual_duration != expected_duration:
+            print(f"Invalid duration for {subject_type} {subject} in section {section} at {time_slot}")
+            adjusted_event = adjust_event(position[i])
+            if not adjusted_event:  # If adjustment fails
+                return None
+            position[i] = adjusted_event  # Replace the conflicting event with the adjusted event
+
+        i += 1  # Increment i
 
     return position
 
@@ -348,10 +363,22 @@ def adjust_schedule(schedule):
     return schedule, conflicts_resolved
 
 def adjust_event(event):
+    section, subject, professor, time_slot, room = event
+    year = get_subject_year(subject)
+    subject_units = subjects[year][subject]['units']
+    subject_type = subjects[year][subject]['type']
+    expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
+
     # Adjust the event by changing its time slot or room
     event = list(event)  # Convert tuple to list for modification
-    event[3] = random.choice(list(time_slots))  # Choose a new random time slot
+
+    # Choose a new random time slot that can accommodate the expected duration
+    available_time_slots = [ts for ts in time_slots if time_slots[ts]['end'] - time_slots[ts]['start'] >= expected_duration]
+    if available_time_slots:
+        event[3] = random.choice(available_time_slots)
+
     event[4] = random.choice(rooms)  # Choose a new random room
+
     return tuple(event)
 
 # Example usage:
@@ -403,8 +430,13 @@ def main():
             print("Particle Velocity:", particle.velocity)
 
             particle.velocity = update_velocity(particle, gBest, w, c1, c2)
+            print("PARTICLE.position TYPE: ", type(particle.position))
+            print("before update: ", particle.position)
+            #particle_instance = Particle(list(particle.), [0] * len(particle))  # Create a Particle instance
             particle.position = update_position(particle)
+            print("after update: ", particle.position)
             particle.position = validate_position(particle.position)
+            print("after validate: ", particle.position)
 
             if particle.position:
                 particle.fitness = calculate_fitness(particle.position)
