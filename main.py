@@ -55,19 +55,45 @@ subjects = {
 
 rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b', 'Room a']
 time_slots = {
-    'H1': {'start': 7, 'end': 8},
-    'H2': {'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
-    'H3': {'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
-    'H4': {'start': 10, 'end': 11},  # 10:00 AM to 11:00 AM
-    'H5': {'start': 11, 'end': 12},  # 11:00 AM to 12:00 PM
-    'H6': {'start': 12, 'end': 13},  # 12:00 PM to 1:00 PM
-    'H7': {'start': 13, 'end': 14},  # 1:00 PM to 2:00 PM
-    'H8': {'start': 14, 'end': 15},  # 2:00 PM to 3:00 PM
-    'H9': {'start': 15, 'end': 16},  # 3:00 PM to 4:00 PM
-    'H10': {'start': 16, 'end': 17},  # 4:00 PM to 5:00 PM
-    'H11': {'start': 17, 'end': 18},  # 5:00 PM to 6:00 PM
-    'H12': {'start': 18, 'end': 19},
-    'H13': {'start': 19, 'end': 20}
+    'D1_H1': {'day': 'Monday', 'start': 7, 'end': 8},
+    'D1_H2': {'day': 'Monday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
+    'D1_H3': {'day': 'Monday', 'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
+    'D1_4': {'day': 'Monday', 'start': 10, 'end': 11},  # 10:00 AM to 11:00 AM
+    'D1_H5': {'day': 'Monday', 'start': 11, 'end': 12},  # 11:00 AM to 12:00 PM
+    'D1_H6': {'day': 'Monday', 'start': 12, 'end': 13},  # 12:00 PM to 1:00 PM
+    'D1_H7': {'day': 'Monday', 'start': 13, 'end': 14},  # 1:00 PM to 2:00 PM
+    'D1_H8': {'day': 'Monday', 'start': 14, 'end': 15},  # 2:00 PM to 3:00 PM
+    'D1_H9': {'day': 'Monday', 'start': 15, 'end': 16},  # 3:00 PM to 4:00 PM
+    'D1_H10': {'day': 'Monday', 'start': 16, 'end': 17},  # 4:00 PM to 5:00 PM
+    'D1_H11': {'day': 'Monday', 'start': 17, 'end': 18},  # 5:00 PM to 6:00 PM
+    'D1_H12': {'day': 'Monday', 'start': 18, 'end': 19},
+    'D1_H13': {'day': 'Monday', 'start': 19, 'end': 20},
+    'D2_H1': {'day': 'Monday', 'start': 7, 'end': 8},
+    'D2_H2': {'day': 'Monday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
+    'D2_H3': {'day': 'Monday', 'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
+    'D2_4': {'day': 'Monday', 'start': 10, 'end': 11},  # 10:00 AM to 11:00 AM
+    'D2_H5': {'day': 'Monday', 'start': 11, 'end': 12},  # 11:00 AM to 12:00 PM
+    'D2_H6': {'day': 'Monday', 'start': 12, 'end': 13},  # 12:00 PM to 1:00 PM
+    'D2_H7': {'day': 'Monday', 'start': 13, 'end': 14},  # 1:00 PM to 2:00 PM
+    'D2_H8': {'day': 'Monday', 'start': 14, 'end': 15},  # 2:00 PM to 3:00 PM
+    'D2_H9': {'day': 'Monday', 'start': 15, 'end': 16},  # 3:00 PM to 4:00 PM
+    'D2_H10': {'day': 'Monday', 'start': 16, 'end': 17},  # 4:00 PM to 5:00 PM
+    'D2_H11': {'day': 'Monday', 'start': 17, 'end': 18},  # 5:00 PM to 6:00 PM
+    'D2_H12': {'day': 'Monday', 'start': 18, 'end': 19},
+    'D2_H13': {'day': 'Monday', 'start': 19, 'end': 20},
+    'D3_H1': {'day': 'Monday', 'start': 7, 'end': 8},
+    'D3_H2': {'day': 'Monday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
+    'D3_H3': {'day': 'Monday', 'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
+    'D3_4': {'day': 'Monday', 'start': 10, 'end': 11},  # 10:00 AM to 11:00 AM
+    'D3_H5': {'day': 'Monday', 'start': 11, 'end': 12},  # 11:00 AM to 12:00 PM
+    'D3_H6': {'day': 'Monday', 'start': 12, 'end': 13},  # 12:00 PM to 1:00 PM
+    'D3_H7': {'day': 'Monday', 'start': 13, 'end': 14},  # 1:00 PM to 2:00 PM
+    'D3_H8': {'day': 'Monday', 'start': 14, 'end': 15},  # 2:00 PM to 3:00 PM
+    'D3_H9': {'day': 'Monday', 'start': 15, 'end': 16},  # 3:00 PM to 4:00 PM
+    'D3_H10': {'day': 'Monday', 'start': 16, 'end': 17},  # 4:00 PM to 5:00 PM
+    'D3_H11': {'day': 'Monday', 'start': 17, 'end': 18},  # 5:00 PM to 6:00 PM
+    'D3_H12': {'day': 'Monday', 'start': 18, 'end': 19},
+    'D3_H13': {'day': 'Monday', 'start': 19, 'end': 20}
 }
 swarm_size = 60
 max_iterations = 100
@@ -86,10 +112,13 @@ class Particle:
 
 
 def initialize_particle(sections, subjects, professors, time_slots, rooms, max_attempts=1000):
+    max_classes_per_day = 5  # Set this to the maximum number of classes you want per day
+
     for _ in range(max_attempts):
         schedule = []
         assigned_subjects = set()
         section_time_slots = defaultdict(list)  # Store the used time slots for each section
+        section_day_classes = defaultdict(lambda: defaultdict(int))  # Store the number of classes for each day for each section
 
         for year, year_sections in sections.items():
             for section in year_sections:
@@ -112,26 +141,27 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                     # Sort the time slots by start time
                     sorted_time_slots = sorted(time_slots.items(), key=lambda ts: ts[1]['start'])
 
-                    # Find a range of consecutive time slots that can accommodate the expected duration
+                    # Find all ranges of consecutive time slots that can accommodate the expected duration
+                    suitable_time_slot_ranges = []
                     for i in range(len(sorted_time_slots) - expected_duration + 1):
                         time_slot_range = sorted_time_slots[i:i+expected_duration]
                         time_slot_ids = [ts[0] for ts in time_slot_range]
 
-                        # Check if all time slots in the range are available
-                        if all(ts not in section_time_slots[section] for ts in time_slot_ids):
-                            break
-                    else:  # If no range of time slots can accommodate the expected duration, adjust the time slots
-                        for i in range(len(sorted_time_slots)):
-                            # Merge adjacent time slots until the duration is enough
-                            while i < len(sorted_time_slots) - 1 and sorted_time_slots[i][1]['end'] - sorted_time_slots[i][1]['start'] < expected_duration:
-                                sorted_time_slots[i][1]['end'] = sorted_time_slots[i+1][1]['end']
-                                del sorted_time_slots[i+1]
-                            if sorted_time_slots[i][1]['end'] - sorted_time_slots[i][1]['start'] >= expected_duration:
-                                time_slot_ids = [sorted_time_slots[i][0]]
-                                break
+                        # Check if all time slots in the range are available and the day of the week is available
+                        if all(ts not in section_time_slots[section] for ts in time_slot_ids) and all(section_day_classes[section][time_slots[ts]['day']] < max_classes_per_day for ts in time_slot_ids):
+                            suitable_time_slot_ranges.append(time_slot_ids)
 
-                    # Add the used time slots to the section's list
+                    if not suitable_time_slot_ranges:  # If no suitable range of time slots is found, skip this subject
+                        print(f"No available time slots for {subject} in {section}. Skipping subject.")
+                        continue
+
+                    # Randomly select a suitable range of time slots
+                    time_slot_ids = random.choice(suitable_time_slot_ranges)
+
+                    # Add the used time slots to the section's list and increment the number of classes for each day
                     section_time_slots[section].extend(time_slot_ids)
+                    for ts in time_slot_ids:
+                        section_day_classes[section][time_slots[ts]['day']] += 1
 
                     room = random.choice(rooms)
 
@@ -146,8 +176,6 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
 
     # If no valid schedule is found after maximum attempts, return None
     return None
-
-
 def initialize_swarm(swarm_size, sections, subjects, professors, time_slots, rooms):
     swarm = []
     for _ in range(swarm_size):
