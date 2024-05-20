@@ -30,18 +30,18 @@ sections = {
 }
 
 professors = {
-    'Prof A': {'preferred_time': 'AM', 'preferred_subjects': ['GEC1-M', 'CC131L-M']},
-    'Prof B': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
-    'Prof C': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
-    'Prof D': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
-    'Prof E': {'preferred_time': 'PM', 'preferred_subjects': ['CS233-M', 'CS333-M']},
-    'Prof F': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
-    'Prof G': {'preferred_time': 'PM', 'preferred_subjects': ['CS433-M', '']},
-    'Prof H': {'preferred_time': 'PM', 'preferred_subjects': ['CS413-M', 'CS272-M']},
-    'Prof I': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
-    'Prof J': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
-    'Prof K': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
-    'Prof L': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
+    'Prof A': {'preferred_time': '', 'preferred_subjects': ['GEC1-M', 'CC131L-M']},
+    'Prof B': {'preferred_time': '', 'preferred_subjects': ['', '']},
+    'Prof C': {'preferred_time': '', 'preferred_subjects': ['', '']},
+    'Prof D': {'preferred_time': '', 'preferred_subjects': ['', '']},
+    'Prof E': {'preferred_time': '', 'preferred_subjects': ['CS233-M', 'CS333-M']},
+    'Prof F': {'preferred_time': '', 'preferred_subjects': ['', '']},
+    'Prof G': {'preferred_time': '', 'preferred_subjects': ['CS433-M', '']},
+    'Prof H': {'preferred_time': '', 'preferred_subjects': ['CS413-M', 'CS272-M']},
+    'Prof I': {'preferred_time': '', 'preferred_subjects': ['', '']},
+    'Prof J': {'preferred_time': '', 'preferred_subjects': ['', '']},
+    'Prof K': {'preferred_time': '', 'preferred_subjects': ['', '']},
+    'Prof L': {'preferred_time': '', 'preferred_subjects': ['', '']},
     # Add more professors as needed
 }
 
@@ -109,20 +109,29 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                     subject_type = subjects[year][subject]['type']
                     expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
 
-                    # Choose a time slot that can accommodate the expected duration and matches the professor's preferred time
-                    preferred_time_slots = [ts for ts in time_slots if time_slots[ts]['end'] - time_slots[ts]['start'] >= expected_duration and professors[professor]['preferred_time'] in ts and ts not in section_time_slots[section]]
-                    if not preferred_time_slots:  # If no preferred time slot can accommodate the expected duration, consider any time slot
-                        available_time_slots = [ts for ts in time_slots if time_slots[ts]['end'] - time_slots[ts]['start'] >= expected_duration and ts not in section_time_slots[section]]
-                        if not available_time_slots:  # If no time slot can accommodate the expected duration, skip this subject
-                            continue
-                        time_slot = random.choice(available_time_slots)
-                    else:
-                        time_slot = random.choice(preferred_time_slots)
-                    section_time_slots[section].append(time_slot)  # Add the used time slot to the section's list
+                    # Sort the time slots by start time
+                    sorted_time_slots = sorted(time_slots.items(), key=lambda ts: ts[1]['start'])
+
+                    # Find a range of consecutive time slots that can accommodate the expected duration
+                    for i in range(len(sorted_time_slots) - expected_duration + 1):
+                        time_slot_range = sorted_time_slots[i:i+expected_duration]
+                        time_slot_ids = [ts[0] for ts in time_slot_range]
+
+                        # Check if all time slots in the range are available
+                        if all(ts not in section_time_slots[section] for ts in time_slot_ids):
+                            break
+                    else:  # If no range of time slots can accommodate the expected duration, skip this subject
+                        print(f"No available time slots for {subject} in {section}. Skipping subject.")
+                        continue
+
+                    # Add the used time slots to the section's list
+                    section_time_slots[section].extend(time_slot_ids)
 
                     room = random.choice(rooms)
 
-                    schedule.append((section, subject, professor, time_slot, room))
+                    # Add an entry to the schedule for each time slot in the range
+                    for time_slot in time_slot_ids:
+                        schedule.append((section, subject, professor, time_slot, room))
 
         # Validate the generated schedule
         validated_schedule = validate_position(schedule)
