@@ -30,17 +30,18 @@ sections = {
 }
 
 professors = {
-    'Prof A': {'preferred_time': 'AM', 'preferred_subjects': ['CC113-M', 'CC131L-M']},
+    'Prof A': {'preferred_time': 'AM', 'preferred_subjects': ['GEC1-M', 'CC131L-M']},
     'Prof B': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
     'Prof C': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
     'Prof D': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
-    'Prof E': {'preferred_time': 'PM', 'preferred_subjects': ['', 'CS333-M']},
+    'Prof E': {'preferred_time': 'PM', 'preferred_subjects': ['CS233-M', 'CS333-M']},
     'Prof F': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
     'Prof G': {'preferred_time': 'PM', 'preferred_subjects': ['CS433-M', '']},
-    'Prof H': {'preferred_time': 'PM', 'preferred_subjects': ['', 'CS272-M']},
+    'Prof H': {'preferred_time': 'PM', 'preferred_subjects': ['CS413-M', 'CS272-M']},
     'Prof I': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
     'Prof J': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
-
+    'Prof K': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
+    'Prof L': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
     # Add more professors as needed
 }
 
@@ -64,9 +65,11 @@ time_slots = {
     'H8': {'start': 14, 'end': 15},  # 2:00 PM to 3:00 PM
     'H9': {'start': 15, 'end': 16},  # 3:00 PM to 4:00 PM
     'H10': {'start': 16, 'end': 17},  # 4:00 PM to 5:00 PM
-    'H11': {'start': 17, 'end': 18}  # 5:00 PM to 6:00 PM
+    'H11': {'start': 17, 'end': 18},  # 5:00 PM to 6:00 PM
+    'H12': {'start': 18, 'end': 19},
+    'H13': {'start': 19, 'end': 20}
 }
-swarm_size = 30
+swarm_size = 60
 max_iterations = 100
 w = 0.5
 c1 = 1.5
@@ -91,58 +94,35 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
         for year, year_sections in sections.items():
             for section in year_sections:
                 subject_pool = subjects[year].copy()  # Create a copy of the subjects for this year
-                time_slots_copy = list(time_slots.keys())  # Create a copy of the time slots for this section
                 while subject_pool:  # While there are still subjects to be scheduled
                     subject = random.choice(list(subject_pool.keys()))
                     del subject_pool[subject]  # Remove the subject from the pool
 
                     available_professors = [prof for prof in professors if subject in professors[prof]['preferred_subjects'] and prof not in assigned_subjects]
                     if not available_professors:
-                        available_professors = [prof for prof in professors if prof not in assigned_subjects]
-                    if not available_professors:
                         available_professors = list(professors.keys())  # Fallback to any professor if still empty
 
                     professor = random.choice(available_professors)
                     assigned_subjects.add(professor)
 
-                    if not time_slots_copy:  # If all time slots have been used, reset the copy
-                        time_slots_copy = list(time_slots.keys())
+                    subject_units = subjects[year][subject]['units']
+                    subject_type = subjects[year][subject]['type']
+                    expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
 
-                    time_slot = random.choice(time_slots_copy)  # Choose a random time slot from the copied time_slots
-                    subj_type=subjects[year][subject]['type']
-                    print("SUBJECT TYPE", subj_type)
-                    # If the subject is a lab, block the next 2 time slots
-                    if subj_type == 'lab':
-                        #print("INSIDE LAB")
-                        next_time_slot_index = time_slots_copy.index(time_slot) + 1
-                        if next_time_slot_index < len(time_slots_copy):
-                            blocked_time_slot = time_slots_copy[next_time_slot_index]
-                            section_time_slots[section].append(blocked_time_slot)
-                            time_slots_copy.remove(blocked_time_slot)
-                        if next_time_slot_index + 1 < len(time_slots_copy):
-                            blocked_time_slot = time_slots_copy[next_time_slot_index + 1]
-                            section_time_slots[section].append(blocked_time_slot)
-                            time_slots_copy.remove(blocked_time_slot)
-                    # If the subject is a lecture, block the next time slot
-                    elif subj_type == 'lec':
-                        print("UNITS NG LEC",subjects[year][subject]['units'])
-                        if subjects[year][subject]['units'] == 3:
-                            next_time_slot_index = time_slots_copy.index(time_slot) + 3
-                            if next_time_slot_index < len(time_slots_copy):
-                                blocked_time_slot = time_slots_copy[next_time_slot_index]
-                                section_time_slots[section].append(blocked_time_slot)
-                                time_slots_copy.remove(blocked_time_slot)
-                        elif subjects[year][subject]['units'] == 2:
-                            next_time_slot_index = time_slots_copy.index(time_slot) + 2
-                            if next_time_slot_index < len(time_slots_copy):
-                                blocked_time_slot = time_slots_copy[next_time_slot_index]
-                                section_time_slots[section].append(blocked_time_slot)
-                                time_slots_copy.remove(blocked_time_slot)
+                    # Choose a time slot that can accommodate the expected duration and matches the professor's preferred time
+                    preferred_time_slots = [ts for ts in time_slots if time_slots[ts]['end'] - time_slots[ts]['start'] >= expected_duration and professors[professor]['preferred_time'] in ts and ts not in section_time_slots[section]]
+                    if not preferred_time_slots:  # If no preferred time slot can accommodate the expected duration, consider any time slot
+                        available_time_slots = [ts for ts in time_slots if time_slots[ts]['end'] - time_slots[ts]['start'] >= expected_duration and ts not in section_time_slots[section]]
+                        if not available_time_slots:  # If no time slot can accommodate the expected duration, skip this subject
+                            continue
+                        time_slot = random.choice(available_time_slots)
+                    else:
+                        time_slot = random.choice(preferred_time_slots)
+                    section_time_slots[section].append(time_slot)  # Add the used time slot to the section's list
 
                     room = random.choice(rooms)
 
                     schedule.append((section, subject, professor, time_slot, room))
-                    time_slots_copy.remove(time_slot)  # Remove the chosen time slot from the copy after it's used
 
         # Validate the generated schedule
         validated_schedule = validate_position(schedule)
@@ -159,6 +139,7 @@ def initialize_swarm(swarm_size, sections, subjects, professors, time_slots, roo
         position = None
         while position is None:
             position = initialize_particle(sections, subjects, professors, time_slots, rooms)
+            print("Initial Position: ", position)
         velocity = [0] * len(position)  # Initial velocity
         swarm.append(Particle(position, velocity))
     return swarm
@@ -231,7 +212,7 @@ def calculate_fitness(schedule):
 
 def update_velocity(particle, gBest, w, c1, c2):
     new_velocity = []
-    print("Particle Position: ", particle.position)
+    #print("Particle Position: ", particle.position)
     for i in range(len(particle.position)):
         r1 = random.random()
         r2 = random.random()
@@ -244,7 +225,7 @@ def update_velocity(particle, gBest, w, c1, c2):
         social = c2 * r2 * (gBest_num - pos_num)
 
         new_velocity.append(w * (particle.velocity[i] if particle.velocity else 0) + cognitive + social)
-    print("new velocity: ", new_velocity)
+    #print("new velocity: ", new_velocity)
     return new_velocity
 
 
@@ -271,8 +252,12 @@ def update_position(particle):
             # If validation fails, adjust the event
             print(f"Conflict detected at index {i}, adjusting event.")
             adjusted_event = adjust_event(new_pos)
-            new_position.append(adjusted_event)
-    print("new position(BEFORE RETURN): ", new_position)
+            if adjusted_event:  # If adjustment is successful
+                new_position.append(adjusted_event)
+            else:
+                print(f"Failed to adjust event at index {i}. Keeping original event.")
+                new_position.append(current_pos)
+    #print("new position(BEFORE RETURN): ", new_position)
     return new_position
 
 
@@ -304,25 +289,27 @@ def validate_position(position):
 
         # Check for double booking for professors
         if professor in professor_schedule and time_slot in professor_schedule[professor]:
-            print(f"Double booking detected for professor {professor} at {time_slot}")
+
             adjusted_event = adjust_event(position[i])
             if not adjusted_event:  # If adjustment fails
+                print(f"Double booking detected for professor {professor} at {time_slot}. Cannot be changed")
                 return None
             position[i] = adjusted_event  # Replace the conflicting event with the adjusted event
         professor_schedule[professor].add(time_slot)
 
         # Check for double booking for rooms
         if room in room_schedule and time_slot in room_schedule[room]:
-            print(f"Double booking detected for room {room} at {time_slot}")
+
             adjusted_event = adjust_event(position[i])
             if not adjusted_event:  # If adjustment fails
+                print(f"Double booking detected for room {room} at {time_slot}.Cannot change")
                 return None
             position[i] = adjusted_event  # Replace the conflicting event with the adjusted event
         room_schedule[room].add(time_slot)
 
         # Check for double subjects per section
         if subject in section_subjects[section]:
-            print(f"Double subject {subject} detected in section {section}")
+            print(f"Double subject {subject} detected in section {section}. DELETED")
             del position[i]  # Remove the duplicate subject
             continue  # Skip the increment of i
         section_subjects[section].add(subject)
@@ -334,9 +321,10 @@ def validate_position(position):
         expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
         actual_duration = time_slots[time_slot]['end'] - time_slots[time_slot]['start']
         if actual_duration != expected_duration:
-            print(f"Invalid duration for {subject_type} {subject} in section {section} at {time_slot}")
+
             adjusted_event = adjust_event(position[i])
             if not adjusted_event:  # If adjustment fails
+                print(f"Invalid duration for {subject_type} {subject} in section {section} at {time_slot}. Cannot be adjusted")
                 return None
             position[i] = adjusted_event  # Replace the conflicting event with the adjusted event
 
@@ -405,14 +393,14 @@ def group_schedule_by_section(schedule):
 def main():
     # Initialize swarm
     swarm = initialize_swarm(swarm_size, sections, subjects, professors, time_slots, rooms)
-    print("Swarm size:", swarm_size)
+    #print("Swarm size:", swarm_size)
     #each particle in swarm is an instance or memory address of where the particle is located
     # Initialize gBest to the position of the first particle in the swarm
     gBest = None
     gBest_fitness = float('-inf')
-    print("initial gBest: ", gBest)
+    #print("initial gBest: ", gBest)
     n = 0
-    print("Swarm Initialized:", swarm)
+    #print("Swarm Initialized:", swarm)
     # Evaluate initial fitness
     for particle in swarm:
         particle.fitness = calculate_fitness(particle.position)
@@ -421,22 +409,22 @@ def main():
         if particle.fitness > gBest_fitness:
             gBest = particle.position
             gBest_fitness = particle.fitness
-            print("particle.fitness > gBest_fitness: ", gBest)
+            #print("particle.fitness > gBest_fitness: ", gBest)
         # Iterate
     for iteration in range(max_iterations):
         for particle in swarm:
-            print(particle, gBest, w, c1, c2)
-            print("Particle Position:", particle.position)
-            print("Particle Velocity:", particle.velocity)
+            #print(particle, gBest, w, c1, c2)
+            #print("Particle Position:", particle.position)
+            #print("Particle Velocity:", particle.velocity)
 
             particle.velocity = update_velocity(particle, gBest, w, c1, c2)
-            print("PARTICLE.position TYPE: ", type(particle.position))
-            print("before update: ", particle.position)
+            #print("PARTICLE.position TYPE: ", type(particle.position))
+            #print("before update: ", particle.position)
             #particle_instance = Particle(list(particle.), [0] * len(particle))  # Create a Particle instance
             particle.position = update_position(particle)
-            print("after update: ", particle.position)
+            #print("after update: ", particle.position)
             particle.position = validate_position(particle.position)
-            print("after validate: ", particle.position)
+            #print("after validate: ", particle.position)
 
             if particle.position:
                 particle.fitness = calculate_fitness(particle.position)
@@ -444,18 +432,18 @@ def main():
                     particle.pBest = particle.position
                     particle.pBest_fitness = particle.fitness
                 if particle.fitness > gBest_fitness:
-                    print("particle position in >gBest:", particle.position)
+                    #print("particle position in >gBest:", particle.position)
                     gBest = particle.position
                     gBest_fitness = particle.fitness
             else:
                 print("Skipping fitness calculation due to invalid position.")
 
-    print("Final gBest:", gBest)
+    #print("Final gBest:", gBest)
 
     # The gBest now holds the best found schedule
     # This print statement is for the division per section of the overall schedule
     grouped_schedule = group_schedule_by_section(gBest)
-    print("Optimized Schedule:")
+    #print("Optimized Schedule:")
     for section, entries in grouped_schedule.items():
         print(f"\n{section}:")
         for entry in entries:
