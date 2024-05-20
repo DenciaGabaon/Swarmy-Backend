@@ -30,30 +30,29 @@ sections = {
 }
 
 professors = {
-    'Prof A': {'preferred_time': 'AM', 'preferred_subjects': ['CS101', 'CS201']},
-    'Prof B': {'preferred_time': 'PM', 'preferred_subjects': ['CS102', 'CS202']},
-    'Prof C': {'preferred_time': 'PM', 'preferred_subjects': ['CS102', 'CS202']},
-    'Prof D': {'preferred_time': 'PM', 'preferred_subjects': ['CS102', 'CS202']},
-    'Prof E': {'preferred_time': 'PM', 'preferred_subjects': ['CS102', 'CS202']},
-    'Prof F': {'preferred_time': 'PM', 'preferred_subjects': ['CS102', 'CS202']},
-    'Prof G': {'preferred_time': 'PM', 'preferred_subjects': ['CS102', 'CS202']},
-    'Prof H': {'preferred_time': 'PM', 'preferred_subjects': ['CS102', 'CS202']},
-    'Prof I': {'preferred_time': 'PM', 'preferred_subjects': ['CS102', 'CS202']},
-    'Prof J': {'preferred_time': 'PM', 'preferred_subjects': ['CS102', 'CS202']},
+    'Prof A': {'preferred_time': 'AM', 'preferred_subjects': ['CC113-M', 'CC131L-M']},
+    'Prof B': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
+    'Prof C': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
+    'Prof D': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
+    'Prof E': {'preferred_time': 'PM', 'preferred_subjects': ['', 'CS333-M']},
+    'Prof F': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
+    'Prof G': {'preferred_time': 'PM', 'preferred_subjects': ['CS433-M', '']},
+    'Prof H': {'preferred_time': 'PM', 'preferred_subjects': ['', 'CS272-M']},
+    'Prof I': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
+    'Prof J': {'preferred_time': 'PM', 'preferred_subjects': ['', '']},
 
     # Add more professors as needed
 }
 
 #First Semester
 subjects = {
-    1: ['CC113-M', 'CC131L-M', 'CC132-M', 'GEC1-M', 'GEC4-M', 'GEC7-M', 'MATHA05S-M', 'NSTP1-M', 'PE1-M'],
-    2: ['CC211L-M', 'CC212-M', 'CS213-M', 'CS233-M', 'CS251L-M', 'CS252-M', 'CS271L-M',
-        'CS272-M', 'GEC6-M', 'GEC8-M', 'PE3-M'],
-    3: ['CC311L-M', 'CC312-M', 'CS313-M', 'CS333-M', 'CS351L-M', 'CS352-M', 'CS373-M', 'CSE1-M', 'CSE2-M'],
-    4: ['CS413-M', 'CS433-M', 'GEE11D-M', 'GEE12D-M', 'GEE13D-M', 'GEM14-M']
+    1: {'CC113-M': {'type': 'lec', 'units': 1}, 'CC131L-M': {'type': 'lab', 'units': 1}, 'CC132-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': 3}, 'GEC4-M': {'type': 'lec', 'units': 3}, 'GEC7-M': {'type': 'lec', 'units': 3}, 'MATHA05S-M': {'type': 'lec', 'units': 5}, 'NSTP1-M': {'type': 'lec', 'units': 3}, 'PE1-M': {'type': 'lec', 'units': 2}},
+    2: {'CC211L-M': {'type': 'lab', 'units': 1}, 'CC212-M': {'type': 'lec', 'units': 2}, 'CS213-M': {'type': 'lec', 'units': 3}, 'CS233-M': {'type': 'lec', 'units': 3}, 'CS251L-M': {'type': 'lab', 'units': 1}, 'CS252-M': {'type': 'lec', 'units': 2}, 'CS271L-M': {'type': 'lab', 'units': 1}, 'CS272-M': {'type': 'lec', 'units': 2}, 'GEC6-M': {'type': 'lec', 'units': 3}, 'GEC8-M': {'type': 'lec', 'units': 3}, 'PE3-M': {'type': 'lec', 'units': 2}},
+    3: {'CC311L-M': {'type': 'lab', 'units': 1}, 'CC312-M': {'type': 'lec', 'units': 2}, 'CS313-M': {'type': 'lec', 'units': 3}, 'CS333-M': {'type': 'lec', 'units': 3}, 'CS351L-M': {'type': 'lab', 'units': 1}, 'CS352-M': {'type': 'lec', 'units': 2}, 'CS373-M': {'type': 'lec', 'units': 3}, 'CSE1-M': {'type': 'lec', 'units': 3}, 'CSE2-M': {'type': 'lec', 'units': 3}},
+    4: {'CS413-M': {'type': 'lec', 'units': 3}, 'CS433-M': {'type': 'lec', 'units': 3}, 'GEE11D-M': {'type': 'lec', 'units': 3}, 'GEE12D-M': {'type': 'lec', 'units': 3}, 'GEE13D-M': {'type': 'lec', 'units': 3}, 'GEM14-M': {'type': 'lec', 'units': 3}}
 }
 
-rooms = ['Room 321', 'Room 322', 'Room 326', 'Room DOST', 'Room Lab', 'Room a', 'Room b', 'Room c']
+rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b']
 time_slots = {
     'H1': {'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
     'H2': {'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
@@ -86,13 +85,15 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
     for _ in range(max_attempts):
         schedule = []
         assigned_subjects = set()
+        section_time_slots = defaultdict(list)  # Store the used time slots for each section
 
         for year, year_sections in sections.items():
             for section in year_sections:
                 subject_pool = subjects[year].copy()  # Create a copy of the subjects for this year
+                time_slots_copy = list(time_slots.keys())  # Create a copy of the time slots for this section
                 while subject_pool:  # While there are still subjects to be scheduled
-                    subject = random.choice(subject_pool)
-                    subject_pool.remove(subject)  # Remove the subject from the pool
+                    subject = random.choice(list(subject_pool.keys()))
+                    del subject_pool[subject]  # Remove the subject from the pool
 
                     available_professors = [prof for prof in professors if subject in professors[prof]['preferred_subjects'] and prof not in assigned_subjects]
                     if not available_professors:
@@ -103,10 +104,34 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                     professor = random.choice(available_professors)
                     assigned_subjects.add(professor)
 
-                    time_slot = random.choice(list(time_slots))  # Choose a random time slot from the keys of the time_slots dictionary
+                    if not time_slots_copy:  # If all time slots have been used, reset the copy
+                        time_slots_copy = list(time_slots.keys())
+
+                    time_slot = random.choice(time_slots_copy)  # Choose a random time slot from the copied time_slots
+
+                    # If the subject is a lab, block the next 2 time slots
+                    if subjects[year][subject]['type'] == 'lab':
+                        next_time_slot_index = time_slots_copy.index(time_slot) + 1
+                        if next_time_slot_index < len(time_slots_copy):
+                            blocked_time_slot = time_slots_copy[next_time_slot_index]
+                            section_time_slots[section].append(blocked_time_slot)
+                            time_slots_copy.remove(blocked_time_slot)
+                        if next_time_slot_index + 1 < len(time_slots_copy):
+                            blocked_time_slot = time_slots_copy[next_time_slot_index + 1]
+                            section_time_slots[section].append(blocked_time_slot)
+                            time_slots_copy.remove(blocked_time_slot)
+                    # If the subject is a lecture, block the next time slot
+                    elif subjects[year][subject]['type'] == 'lec':
+                        next_time_slot_index = time_slots_copy.index(time_slot) + 1
+                        if next_time_slot_index < len(time_slots_copy):
+                            blocked_time_slot = time_slots_copy[next_time_slot_index]
+                            section_time_slots[section].append(blocked_time_slot)
+                            time_slots_copy.remove(blocked_time_slot)
+
                     room = random.choice(rooms)
 
                     schedule.append((section, subject, professor, time_slot, room))
+                    time_slots_copy.remove(time_slot)  # Remove the chosen time slot from the copy after it's used
 
         # Validate the generated schedule
         validated_schedule = validate_position(schedule)
@@ -115,8 +140,6 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
 
     # If no valid schedule is found after maximum attempts, return None
     return None
-
-
 
 
 def initialize_swarm(swarm_size, sections, subjects, professors, time_slots, rooms):
@@ -137,6 +160,11 @@ def preference_score(professor, time_slot):
         return 10
     return 5
 
+def get_subject_year(subject):
+    for year, subjects_in_year in subjects.items():
+        if subject in subjects_in_year:
+            return year
+    return None
 
 def calculate_conflicts(schedule):
     conflicts = 0
@@ -144,8 +172,16 @@ def calculate_conflicts(schedule):
     time_professor_usage = {}
 
     for (section, subject, professor, time_slot, room) in schedule:
+        year = get_subject_year(subject)
+        if year is None:
+            print(f"Error: Year not found for subject {subject}")
+            continue
+
         time_slot_start = time_slots[time_slot]['start']
-        time_slot_end = time_slots[time_slot]['end']
+        if subjects[year][subject]['type'] == 'lec':
+            time_slot_end = time_slot_start + subjects[year][subject]['units']  # 1 hour for lecture
+        else:
+            time_slot_end = time_slot_start + subjects[year][subject]['units'] * 3  # 3 hours for lab
 
         # Check for room conflict
         for (used_time_slot, used_room) in time_room_usage.keys():
