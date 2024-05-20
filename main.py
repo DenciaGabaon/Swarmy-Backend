@@ -295,18 +295,23 @@ def update_velocity(particle, gBest, w, c1, c2):
     new_velocity = []
     #print("Particle Position: ", particle.position)
     for i in range(len(particle.position)):
-        r1 = random.random()
-        r2 = random.random()
+        if i < len(gBest):  # Check if the index exists in gBest
+            gBest_num = convert_to_numeric(gBest[i])
+            r1 = random.random()
+            r2 = random.random()
 
-        pos_num = convert_to_numeric(particle.position[i])
-        pBest_num = convert_to_numeric(particle.pBest[i])
-        gBest_num = convert_to_numeric(gBest[i])
+            pos_num = convert_to_numeric(particle.position[i])
+            pBest_num = convert_to_numeric(particle.pBest[i])
+            gBest_num = convert_to_numeric(gBest[i])
 
-        cognitive = c1 * r1 * (pBest_num - pos_num)
-        social = c2 * r2 * (gBest_num - pos_num)
+            cognitive = c1 * r1 * (pBest_num - pos_num)
+            social = c2 * r2 * (gBest_num - pos_num)
 
-        new_velocity.append(w * (particle.velocity[i] if particle.velocity else 0) + cognitive + social)
-    #print("new velocity: ", new_velocity)
+            new_velocity.append(w * (particle.velocity[i] if particle.velocity else 0) + cognitive + social)
+        else:
+            print(f"Index {i} does not exist in gBest.")
+
+        #print("new velocity: ", new_velocity)
     return new_velocity
 
 
