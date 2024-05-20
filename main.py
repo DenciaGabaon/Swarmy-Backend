@@ -53,7 +53,7 @@ subjects = {
     4: {'CS413-M': {'type': 'lec', 'units': 3}, 'CS433-M': {'type': 'lec', 'units': 3}, 'GEE11D-M': {'type': 'lec', 'units': 3}, 'GEE12D-M': {'type': 'lec', 'units': 3}, 'GEE13D-M': {'type': 'lec', 'units': 3}, 'GEM14-M': {'type': 'lec', 'units': 3}}
 }
 
-rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b', 'Room a']
+rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b', 'Room a', 'room b']
 time_slots = {
     'D1_H1': {'day': 'Monday', 'start': 7, 'end': 8},
     'D1_H2': {'day': 'Monday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
@@ -139,13 +139,14 @@ class Particle:
 
 
 def initialize_particle(sections, subjects, professors, time_slots, rooms, max_attempts=1000):
-    max_classes_per_day = 5  # Set this to the maximum number of classes you want per day
+    max_classes_per_day = 6  # Set this to the maximum number of classes you want per day
 
     for _ in range(max_attempts):
         schedule = []
         assigned_subjects = set()
         section_time_slots = defaultdict(list)  # Store the used time slots for each section
         section_day_classes = defaultdict(lambda: defaultdict(int))  # Store the number of classes for each day for each section
+        section_assigned_subjects = defaultdict(set)  # Store the assigned subjects for each section
 
         for year, year_sections in sections.items():
             for section in year_sections:
@@ -153,6 +154,11 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                 while subject_pool:  # While there are still subjects to be scheduled
                     subject = random.choice(list(subject_pool.keys()))
                     del subject_pool[subject]  # Remove the subject from the pool
+
+                    # Skip this subject if it has already been assigned to this section
+                    if subject in section_assigned_subjects[section]:
+                        print(f"{subject} has already been assigned to {section}. Skipping subject.")
+                        continue
 
                     available_professors = [prof for prof in professors if subject in professors[prof]['preferred_subjects'] and prof not in assigned_subjects]
                     if not available_professors:
@@ -172,7 +178,6 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                     suitable_time_slot_ranges = []
                     for i in range(len(sorted_time_slots) - expected_duration + 1):
                         time_slot_range = sorted_time_slots[i:i+expected_duration]
-                        print("Time Slot Range: ", time_slot_range)
                         time_slot_ids = [ts[0] for ts in time_slot_range]
 
                         # Check if all time slots in the range are available and the day of the week is available
@@ -197,6 +202,9 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                     for time_slot in time_slot_ids:
                         schedule.append((section, subject, professor, time_slot, room))
 
+                    # Add the subject to the section's assigned subjects
+                    section_assigned_subjects[section].add(subject)
+
         # Validate the generated schedule
         validated_schedule = validate_position(schedule)
         if validated_schedule:
@@ -204,6 +212,8 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
 
     # If no valid schedule is found after maximum attempts, return None
     return None
+
+
 def initialize_swarm(swarm_size, sections, subjects, professors, time_slots, rooms):
     swarm = []
     for _ in range(swarm_size):
