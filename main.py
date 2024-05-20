@@ -47,13 +47,13 @@ professors = {
 
 #First Semester
 subjects = {
-    1: {'CC113-M': {'type': 'lec', 'units': 1}, 'CC131L-M': {'type': 'lab', 'units': 1}, 'CC132-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': 3}, 'GEC4-M': {'type': 'lec', 'units': 3}, 'GEC7-M': {'type': 'lec', 'units': 3}, 'MATHA05S-M': {'type': 'lec', 'units': 5}, 'NSTP1-M': {'type': 'lec', 'units': 3}, 'PE1-M': {'type': 'lec', 'units': 2}},
+    1: {'CC113-M': {'type': 'lec', 'units': 3}, 'CC131L-M': {'type': 'lab', 'units': 1}, 'CC132-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': 3}, 'GEC4-M': {'type': 'lec', 'units': 3}, 'GEC7-M': {'type': 'lec', 'units': 3}, 'MATHA05S-M': {'type': 'lec', 'units': 5}, 'NSTP1-M': {'type': 'lec', 'units': 3}, 'PE1-M': {'type': 'lec', 'units': 2}},
     2: {'CC211L-M': {'type': 'lab', 'units': 1}, 'CC212-M': {'type': 'lec', 'units': 2}, 'CS213-M': {'type': 'lec', 'units': 3}, 'CS233-M': {'type': 'lec', 'units': 3}, 'CS251L-M': {'type': 'lab', 'units': 1}, 'CS252-M': {'type': 'lec', 'units': 2}, 'CS271L-M': {'type': 'lab', 'units': 1}, 'CS272-M': {'type': 'lec', 'units': 2}, 'GEC6-M': {'type': 'lec', 'units': 3}, 'GEC8-M': {'type': 'lec', 'units': 3}, 'PE3-M': {'type': 'lec', 'units': 2}},
     3: {'CC311L-M': {'type': 'lab', 'units': 1}, 'CC312-M': {'type': 'lec', 'units': 2}, 'CS313-M': {'type': 'lec', 'units': 3}, 'CS333-M': {'type': 'lec', 'units': 3}, 'CS351L-M': {'type': 'lab', 'units': 1}, 'CS352-M': {'type': 'lec', 'units': 2}, 'CS373-M': {'type': 'lec', 'units': 3}, 'CSE1-M': {'type': 'lec', 'units': 3}, 'CSE2-M': {'type': 'lec', 'units': 3}},
     4: {'CS413-M': {'type': 'lec', 'units': 3}, 'CS433-M': {'type': 'lec', 'units': 3}, 'GEE11D-M': {'type': 'lec', 'units': 3}, 'GEE12D-M': {'type': 'lec', 'units': 3}, 'GEE13D-M': {'type': 'lec', 'units': 3}, 'GEM14-M': {'type': 'lec', 'units': 3}}
 }
 
-rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b']
+rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b', 'Room a']
 time_slots = {
     'H1': {'start': 7, 'end': 8},
     'H2': {'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
@@ -120,9 +120,15 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                         # Check if all time slots in the range are available
                         if all(ts not in section_time_slots[section] for ts in time_slot_ids):
                             break
-                    else:  # If no range of time slots can accommodate the expected duration, skip this subject
-                        print(f"No available time slots for {subject} in {section}. Skipping subject.")
-                        continue
+                    else:  # If no range of time slots can accommodate the expected duration, adjust the time slots
+                        for i in range(len(sorted_time_slots)):
+                            # Merge adjacent time slots until the duration is enough
+                            while i < len(sorted_time_slots) - 1 and sorted_time_slots[i][1]['end'] - sorted_time_slots[i][1]['start'] < expected_duration:
+                                sorted_time_slots[i][1]['end'] = sorted_time_slots[i+1][1]['end']
+                                del sorted_time_slots[i+1]
+                            if sorted_time_slots[i][1]['end'] - sorted_time_slots[i][1]['start'] >= expected_duration:
+                                time_slot_ids = [sorted_time_slots[i][0]]
+                                break
 
                     # Add the used time slots to the section's list
                     section_time_slots[section].extend(time_slot_ids)
