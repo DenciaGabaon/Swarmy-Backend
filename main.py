@@ -163,6 +163,7 @@ def update_velocity(particle, gBest, w, c1, c2):
         social = c2 * r2 * (gBest_num - pos_num)
 
         new_velocity.append(w * (particle.velocity[i] if particle.velocity else 0) + cognitive + social)
+    print("new velocity: ", new_velocity)
     return new_velocity
 
 
@@ -179,30 +180,30 @@ def update_position(particle):
     new_position = []
     for i in range(len(particle.position)):
         current_pos = particle.position[i]
-        #print(f"Current Position[{i}]: {current_pos}")  # Debug statement
+        print(f"Current Position[{i}]: {current_pos}")  # Debug statement
 
         current_pos_num = convert_to_numeric(current_pos)
-        #print(f"Current Numeric Position[{i}]: {current_pos_num}")  # Debug statement
+        print(f"Current Numeric Position[{i}]: {current_pos_num}")  # Debug statement
 
         new_pos_num = round(current_pos_num + particle.velocity[i])
-        #print(f"New Numeric Position[{i}] before modulo: {new_pos_num}")  # Debug statement
+        print(f"New Numeric Position[{i}] before modulo: {new_pos_num}")  # Debug statement
 
         new_pos_num = new_pos_num % len(num_to_position)
-        #print(f"New Numeric Position[{i}] after modulo: {new_pos_num}")  # Debug statement
+        print(f"New Numeric Position[{i}] after modulo: {new_pos_num}")  # Debug statement
 
         new_pos = convert_from_numeric(new_pos_num)
-        #print(f"New Position[{i}]: {new_pos}")  # Debug statement
+        print(f"New Position[{i}]: {new_pos}")  # Debug statement
 
         validated_pos = validate_position(new_pos)
-        #print(f"Validated Position[{i}]: {validated_pos}")  # Debug statement
+        print(f"Validated Position[{i}]: {validated_pos}")  # Debug statement
 
         if validated_pos:
             new_position.append(validated_pos)
         else:
-            #print(f"Invalid position detected at index {i}, skipping update.")
+            print(f"Invalid position detected at index {i}, skipping update.")
             new_position.append(current_pos)  # Keep the current position if new position is invalid
 
-    #print(f"Updated Position: {new_position}")  # Debug statement
+    print(f"Updated Position: {new_position}")  # Debug statement
     return new_position
 
 
@@ -223,7 +224,7 @@ def convert_from_numeric(num):
     return num_to_position[num]
 
 
-'''def validate_position(position):
+def validate_position(position):
     """
     Validate the position to ensure there are no double bookings and double subjects.
 
@@ -263,11 +264,11 @@ def convert_from_numeric(num):
             return False
         section_subjects[section].add(subject)
 
-    return position'''
-
-def validate_position(position):
-    # Validate the position (e.g., no double-booking)
     return position
+
+'''def validate_position(position):
+    # Validate the position (e.g., no double-booking)
+    return position'''
 
 
 
@@ -282,59 +283,68 @@ def group_schedule_by_section(schedule):
     return grouped_schedule
 
 
-
-# Initialize swarm
-swarm = initialize_swarm(swarm_size, sections, subjects, professors, time_slots, rooms)
-gBest = None
-gBest_fitness = float('-inf')
-n = 0
-
-# Evaluate initial fitness
-for particle in swarm:
-    particle.fitness = calculate_fitness(particle.position)
-    particle.pBest = particle.position
-    particle.pBest_fitness = particle.fitness
-    if particle.fitness > gBest_fitness:
-        gBest = particle.position
-        gBest_fitness = particle.fitness
-
-# Iterate
-for iteration in range(max_iterations):
+def main():
+    # Initialize swarm
+    swarm = initialize_swarm(swarm_size, sections, subjects, professors, time_slots, rooms)
+    #each particle in swarm is an instance or memory address of where the particle is located
+    gBest = None
+    gBest_fitness = float('-inf')
+    n = 0
+    print("Swarm Initialized:", swarm)
+    # Evaluate initial fitness
     for particle in swarm:
-        particle.velocity = update_velocity(particle, gBest, w, c1, c2)
-        particle.position = update_position(particle)
-        particle.position = validate_position(particle.position)
         particle.fitness = calculate_fitness(particle.position)
-        #if false maintain the current sched and skip the update.
-        #else, update the sched and calculate the fitness
-
-        if particle.fitness > particle.pBest_fitness:
-            particle.pBest = particle.position
-            particle.pBest_fitness = particle.fitness
-
+        particle.pBest = particle.position
+        particle.pBest_fitness = particle.fitness
         if particle.fitness > gBest_fitness:
             gBest = particle.position
             gBest_fitness = particle.fitness
 
+    # Iterate
+    for iteration in range(max_iterations):
+        for particle in swarm:
+            print(particle, gBest, w, c1, c2)
+            print("Particle Position:", particle.position)
+            #Represents the potential schedule. It is a list of tuples.
+            print("Particle Velocity:", particle.velocity)
+            #it will be updated during the PSO process to find better schedules.
+
+            particle.velocity = update_velocity(particle, gBest, w, c1, c2)
+            particle.position = update_position(particle)
+            particle.position = validate_position(particle.position)
+            particle.fitness = calculate_fitness(particle.position)
+            #if false maintain the current sched and skip the update.
+            #else, update the sched and calculate the fitness
+
+            if particle.fitness > particle.pBest_fitness:
+                particle.pBest = particle.position
+                particle.pBest_fitness = particle.fitness
+
+            if particle.fitness > gBest_fitness:
+                gBest = particle.position
+                gBest_fitness = particle.fitness
 
 
-# The gBest now holds the best found schedule
-# This print statement is for the division per section of the overall schedule
-n = 0
-grouped_schedule = group_schedule_by_section(gBest)
-print("Optimized Schedule:")
-for section, entries in grouped_schedule.items():
-    print(f"\n{section}:")
-    for entry in entries:
-        n += 1
-        print(f"{n}. {entry}")
-print("\nFitness Score:", gBest_fitness)
+
+    # The gBest now holds the best found schedule
+    # This print statement is for the division per section of the overall schedule
+    grouped_schedule = group_schedule_by_section(gBest)
+    print("Optimized Schedule:")
+    for section, entries in grouped_schedule.items():
+        print(f"\n{section}:")
+        for entry in entries:
+            n += 1
+            print(f"{n}. {entry}")
+    print("\nFitness Score:", gBest_fitness)
 
 
-# The gBest now holds the best found schedule
-# This print statement is for you to see the overall schedule
-'''print("Optimized Schedule:\n" + '\n'.join(f"{n+i+1}. {entry}" for i, entry in enumerate(gBest)))
-print("Fitness Score:", gBest_fitness)'''
+    # The gBest now holds the best found schedule
+    # This print statement is for you to see the overall schedule
+    '''print("Optimized Schedule:\n" + '\n'.join(f"{n+i+1}. {entry}" for i, entry in enumerate(gBest)))
+    print("Fitness Score:", gBest_fitness)'''
+
+if __name__ == "__main__":
+    main()
 
 
 
