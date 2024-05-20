@@ -282,53 +282,53 @@ def group_schedule_by_section(schedule):
     return grouped_schedule
 
 
+def main():
+    # Initialize swarm
+    swarm = initialize_swarm(swarm_size, sections, subjects, professors, time_slots, rooms)
+    gBest = None
+    gBest_fitness = float('-inf')
+    n = 0
 
-# Initialize swarm
-swarm = initialize_swarm(swarm_size, sections, subjects, professors, time_slots, rooms)
-gBest = None
-gBest_fitness = float('-inf')
-n = 0
-
-# Evaluate initial fitness
-for particle in swarm:
-    particle.fitness = calculate_fitness(particle.position)
-    particle.pBest = particle.position
-    particle.pBest_fitness = particle.fitness
-    if particle.fitness > gBest_fitness:
-        gBest = particle.position
-        gBest_fitness = particle.fitness
-
-# Iterate
-for iteration in range(max_iterations):
+    # Evaluate initial fitness
     for particle in swarm:
-        particle.velocity = update_velocity(particle, gBest, w, c1, c2)
-        particle.position = update_position(particle)
-        particle.position = validate_position(particle.position)
         particle.fitness = calculate_fitness(particle.position)
-        #if false maintain the current sched and skip the update.
-        #else, update the sched and calculate the fitness
-
-        if particle.fitness > particle.pBest_fitness:
-            particle.pBest = particle.position
-            particle.pBest_fitness = particle.fitness
-
+        particle.pBest = particle.position
+        particle.pBest_fitness = particle.fitness
         if particle.fitness > gBest_fitness:
             gBest = particle.position
             gBest_fitness = particle.fitness
 
+    # Iterate
+    for iteration in range(max_iterations):
+        for particle in swarm:
+            particle.velocity = update_velocity(particle, gBest, w, c1, c2)
+            particle.position = update_position(particle)
+            particle.position = validate_position(particle.position)
+            particle.fitness = calculate_fitness(particle.position)
+            #if false maintain the current sched and skip the update.
+            #else, update the sched and calculate the fitness
+
+            if particle.fitness > particle.pBest_fitness:
+                particle.pBest = particle.position
+                particle.pBest_fitness = particle.fitness
+
+            if particle.fitness > gBest_fitness:
+                gBest = particle.position
+                gBest_fitness = particle.fitness
 
 
-# The gBest now holds the best found schedule
-# This print statement is for the division per section of the overall schedule
-n = 0
-grouped_schedule = group_schedule_by_section(gBest)
-print("Optimized Schedule:")
-for section, entries in grouped_schedule.items():
-    print(f"\n{section}:")
-    for entry in entries:
-        n += 1
-        print(f"{n}. {entry}")
-print("\nFitness Score:", gBest_fitness)
+
+    # The gBest now holds the best found schedule
+    # This print statement is for the division per section of the overall schedule
+    n = 0
+    grouped_schedule = group_schedule_by_section(gBest)
+    print("Optimized Schedule:")
+    for section, entries in grouped_schedule.items():
+        print(f"\n{section}:")
+        for entry in entries:
+            n += 1
+            print(f"{n}. {entry}")
+    print("\nFitness Score:", gBest_fitness)
 
 
 # The gBest now holds the best found schedule
@@ -336,5 +336,6 @@ print("\nFitness Score:", gBest_fitness)
 '''print("Optimized Schedule:\n" + '\n'.join(f"{n+i+1}. {entry}" for i, entry in enumerate(gBest)))
 print("Fitness Score:", gBest_fitness)'''
 
-
+if __name__ == '__main__':
+    main()
 
