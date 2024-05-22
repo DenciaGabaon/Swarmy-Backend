@@ -74,6 +74,8 @@ time_slots = {
     'D1_H11': {'day': 'Monday', 'start': 17, 'end': 18},  # 5:00 PM to 6:00 PM
     'D1_H12': {'day': 'Monday', 'start': 18, 'end': 19},
     'D1_H13': {'day': 'Monday', 'start': 19, 'end': 20},
+
+
     'D2_H1': {'day': 'Tuesday', 'start': 7, 'end': 8},
     'D2_H2': {'day': 'Tuesday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
     'D2_H3': {'day': 'Tuesday', 'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
@@ -87,6 +89,8 @@ time_slots = {
     'D2_H11': {'day': 'Tuesday', 'start': 17, 'end': 18},  # 5:00 PM to 6:00 PM
     'D2_H12': {'day': 'Tuesday', 'start': 18, 'end': 19},
     'D2_H13': {'day': 'Tuesday', 'start': 19, 'end': 20},
+
+
     'D3_H1': {'day': 'Wednesday', 'start': 7, 'end': 8},
     'D3_H2': {'day': 'Wednesday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
     'D3_H3': {'day': 'Wednesday', 'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
@@ -100,6 +104,8 @@ time_slots = {
     'D3_H11': {'day': 'Wednesday', 'start': 17, 'end': 18},  # 5:00 PM to 6:00 PM
     'D3_H12': {'day': 'Wednesday', 'start': 18, 'end': 19},
     'D3_H13': {'day': 'Wednesday', 'start': 19, 'end': 20},
+
+
     'D4_H1': {'day': 'Thursday', 'start': 7, 'end': 8},
     'D4_H2': {'day': 'Thursday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
     'D4_H3': {'day': 'Thursday', 'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
@@ -113,6 +119,8 @@ time_slots = {
     'D4_H11': {'day': 'Thursday', 'start': 17, 'end': 18},  # 5:00 PM to 6:00 PM
     'D4_H12': {'day': 'Thursday', 'start': 18, 'end': 19},
     'D4_H13': {'day': 'Thursday', 'start': 19, 'end': 20},
+
+
     'D5_H1': {'day': 'Friday', 'start': 7, 'end': 8},
     'D5_H2': {'day': 'Friday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
     'D5_H3': {'day': 'Friday', 'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
@@ -301,6 +309,14 @@ def calculate_fitness(schedule):
     distribution_score = calculate_distribution(schedule)
     return preference_scores - conflict_penalty + distribution_score
 
+def convert_to_numeric(position):
+    global position_to_num, num_to_position
+    if position not in position_to_num:
+        num = len(position_to_num)
+        position_to_num[position] = num
+        num_to_position[num] = position
+    return position_to_num[position]
+
 def update_velocity(particle, gBest, w, c1, c2):
     new_velocity = []
     #print("Particle Position: ", particle.position)
@@ -361,13 +377,7 @@ def update_position(particle):
 position_to_num = {}
 num_to_position = {}
 
-def convert_to_numeric(position):
-    global position_to_num, num_to_position
-    if position not in position_to_num:
-        num = len(position_to_num)
-        position_to_num[position] = num
-        num_to_position[num] = position
-    return position_to_num[position]
+
 
 def convert_from_numeric(num):
     global num_to_position
@@ -447,7 +457,36 @@ def adjust_schedule(schedule):
     #print(f"Conflicts resolved: {conflicts_resolved}")
     return schedule, conflicts_resolved
 
+
+
 def adjust_event(event):
+    section, subject, professor, time_slot, room = event
+    year = get_subject_year(subject)
+    subject_units = subjects[year][subject]['units']
+    subject_type = subjects[year][subject]['type']
+    expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
+
+    # Adjust the event by changing its time slot or room
+    event = list(event)  # Convert tuple to list for modification
+
+    # Choose a new random time slot that can accommodate the expected duration
+    available_time_slots = [ts for ts in time_slots if time_slots[ts]['end'] - time_slots[ts]['start'] >= expected_duration]
+
+    # Exclude the last two time slots of the day for lab subjects or lecture subjects with 3 units
+    if subject_type == 'lab' or (subject_type == 'lec' and subject_units == 3):
+        available_time_slots = [ts for ts in available_time_slots if not ts.endswith('_H12') and not ts.endswith('_H13')]
+    # Exclude the last four time slots of the day for lecture subjects with 5 units
+    elif subject_type == 'lec' and subject_units == 5:
+        available_time_slots = [ts for ts in available_time_slots if not ts.endswith('_H10') and not ts.endswith('_H11') and not ts.endswith('_H12') and not ts.endswith('_H13')]
+
+    if available_time_slots:
+        event[3] = random.choice(available_time_slots)
+
+    event[4] = random.choice(rooms)  # Choose a new random room
+
+    return tuple(event)
+
+'''def adjust_event(event):
     section, subject, professor, time_slot, room = event
     year = get_subject_year(subject)
     subject_units = subjects[year][subject]['units']
@@ -465,7 +504,7 @@ def adjust_event(event):
     event[4] = random.choice(rooms)  # Choose a new random room
 
     return tuple(event)
-
+'''
 # Example usage:
 
 
@@ -476,6 +515,26 @@ def adjust_event(event):
 
 
 
+def print_timetable(schedule):
+    # Group the schedule by day and section
+    grouped_schedule = defaultdict(lambda: defaultdict(list))
+    for entry in schedule:
+        day, section = entry[3].split('_')[0], entry[0]  # Extract the day and section from the entry
+        grouped_schedule[day][section].append(entry)
+
+    # Define the order of the days
+    days_order = ['D1', 'D2', 'D3', 'D4', 'D5']
+
+    # Print the timetable
+    for day in days_order:
+        print(f"\n{day}:")
+        for section, entries in grouped_schedule[day].items():
+            print(f"  {section}:")
+            # Sort the entries by the start time of the time slot
+            sorted_entries = sorted(entries, key=lambda entry: entry[3])
+            for entry in sorted_entries:
+                section, subject, professor, time_slot, room = entry
+                print(f"    {time_slot}: {subject} with {professor} in {room}")
 
 
 
@@ -547,10 +606,8 @@ def main():
             n += 1
             print(f"{n}. {entry}")
     print("\nFitness Score:", gBest_fitness)
+    print_timetable(gBest)
     # exporting to json
-    # The gBest now holds the best found schedule
-    grouped_schedule = group_schedule_by_section(gBest)
-
     # Convert the schedule to a format suitable for JSON
     json_schedule = {section: [list(entry) for entry in entries] for section, entries in grouped_schedule.items()}
 
