@@ -16,7 +16,7 @@ def check_conflicts(data):
     for j, class2 in enumerate(data):
       if i != j and ((class1[2] == class2[2] and class1[3] == class2[3]) or (
               class1[3] == class2[3] and class1[4] == class2[4])):
-        print(f"Conflict found between {class1[0]} {class1[1]} and {class2[0]} {class2[1]}")
+        print(f"Conflict found between \n{class1[0]} {class1[1]} {class1[2]} {class1[3]} {class1[4]}\n and \n{class2[0]} {class2[1]} {class2[2]} {class2[3]} {class2[4]}\n")
         conflicts.append((class1[0], class1[1], class1[2], class1[3], class1[4]))
         conflicts.append((class2[0], class2[1], class2[2], class2[3], class2[4]))
   return conflicts

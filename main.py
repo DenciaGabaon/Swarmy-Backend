@@ -11,6 +11,7 @@
 - LAB AND LEC CONSTRAINTS - done
 - MAX HOURS OF PROFESSORS PER WEEK - not yet done
 - Dapat di lalagpas ung end time ng klase sa hour 13
+- double booking of professor
 
 -There are 35 subjects in total:
     Total subjects for Year 1: 9
@@ -225,6 +226,7 @@ def initialize_swarm(swarm_size, sections, subjects, professors, time_slots, roo
         while position is None:
             position = initialize_particle(sections, subjects, professors, time_slots, rooms)
             print("Initial Position: ", position)
+            position, _ = adjust_schedule(position)
         velocity = [0] * len(position)  # Initial velocity
         swarm.append(Particle(position, velocity))
     return swarm
@@ -291,6 +293,7 @@ def calculate_distribution(schedule):
 
 
 def calculate_fitness(schedule):
+    schedule, conflicts_resolved = adjust_schedule(schedule)
     preference_scores = sum(preference_score(prof, time_slot) for (section, subject, prof, time_slot, room) in schedule)
     conflict_penalty = calculate_conflicts(schedule)
     distribution_score = calculate_distribution(schedule)
@@ -507,11 +510,11 @@ def main():
             #print(particle, gBest, w, c1, c2)
             #print("Particle Position:", particle.position)
             #print("Particle Velocity:", particle.velocity)
-
             particle.velocity = update_velocity(particle, gBest, w, c1, c2)
             #print("PARTICLE.position TYPE: ", type(particle.position))
             #print("before update: ", particle.position)
             #particle_instance = Particle(list(particle.), [0] * len(particle))  # Create a Particle instance
+            particle.position, _ = adjust_schedule(particle.position)
             particle.position = update_position(particle)
             #print("after update: ", particle.position)
             particle.position = validate_position(particle.position)
