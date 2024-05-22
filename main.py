@@ -11,7 +11,8 @@
 - LAB AND LEC CONSTRAINTS - done
 - MAX HOURS OF PROFESSORS PER WEEK - not yet done
 - Dapat di lalagpas ung end time ng klase sa hour 13
-- double booking of professor
+- double booking of professor - done
+= expected duration not followed
 
 -There are 35 subjects in total:
     Total subjects for Year 1: 9
