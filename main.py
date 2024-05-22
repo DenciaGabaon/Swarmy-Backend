@@ -1,4 +1,6 @@
 '''TO DO:
+- highest fitness score so far: 455
+- the higher the fitness score, the better
 
 - VALIDATE SCHEDULES, ROOMS, AND TIMESLOTS: MAY NAG DDOUBLE PA TAS YUNG IBANG SUBJECTS
     DI NALALAGYAN NG SCHEDULE
@@ -6,9 +8,9 @@
      maintain the current sched and skip the update
         else, update the sched and calculate the fitness
 - UNCOMMENT THE VALIDATION FUNCTION TO SEE THE ERROR
-- LAB AND LEC CONSTRAINTS
-- MAX HOURS OF PROFESSORS PER WEEK
--
+- LAB AND LEC CONSTRAINTS - done
+- MAX HOURS OF PROFESSORS PER WEEK - not yet done
+- Dapat di lalagpas ung end time ng klase sa hour 13
 
 -There are 35 subjects in total:
     Total subjects for Year 1: 9
@@ -20,6 +22,8 @@
 
 import random
 from collections import defaultdict
+import json
+
 
 # Example data structures
 sections = {
@@ -53,7 +57,7 @@ subjects = {
     4: {'CS413-M': {'type': 'lec', 'units': 3}, 'CS433-M': {'type': 'lec', 'units': 3}, 'GEE11D-M': {'type': 'lec', 'units': 3}, 'GEE12D-M': {'type': 'lec', 'units': 3}, 'GEE13D-M': {'type': 'lec', 'units': 3}, 'GEM14-M': {'type': 'lec', 'units': 3}}
 }
 
-rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b', 'Room a', 'room b']
+rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b']
 time_slots = {
     'D1_H1': {'day': 'Monday', 'start': 7, 'end': 8},
     'D1_H2': {'day': 'Monday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
@@ -262,6 +266,7 @@ def calculate_conflicts(schedule):
             used_time_slot_end = time_slots[used_time_slot]['end']
 
             if room == used_room and not (time_slot_end <= used_time_slot_start or time_slot_start >= used_time_slot_end):
+                print(f"Room conflict detected for {room} at {time_slot}.")
                 conflicts += 1
         time_room_usage[(time_slot, room)] = True
 
@@ -271,6 +276,7 @@ def calculate_conflicts(schedule):
             used_time_slot_end = time_slots[used_time_slot]['end']
 
             if professor == used_professor and not (time_slot_end <= used_time_slot_start or time_slot_start >= used_time_slot_end):
+                print(f"Professor conflict detected for {professor} at {time_slot}.")
                 conflicts += 1
         time_professor_usage[(time_slot, professor)] = True
 
@@ -289,7 +295,6 @@ def calculate_fitness(schedule):
     conflict_penalty = calculate_conflicts(schedule)
     distribution_score = calculate_distribution(schedule)
     return preference_scores - conflict_penalty + distribution_score
-
 
 def update_velocity(particle, gBest, w, c1, c2):
     new_velocity = []
@@ -385,7 +390,6 @@ def validate_position(position):
 
         # Check for double booking for rooms
         if room in room_schedule and time_slot in room_schedule[room]:
-
             adjusted_event = adjust_event(position[i])
             if not adjusted_event:  # If adjustment fails
                 print(f"Double booking detected for room {room} at {time_slot}.Cannot change")
@@ -395,7 +399,7 @@ def validate_position(position):
 
         # Check for double subjects per section
         if subject in section_subjects[section]:
-            print(f"Double subject {subject} detected in section {section}. DELETED")
+            #print(f"Double subject {subject} detected in section {section}. DELETED")
             del position[i]  # Remove the duplicate subject
             continue  # Skip the increment of i
         section_subjects[section].add(subject)
@@ -434,6 +438,7 @@ def adjust_schedule(schedule):
                 schedule[i] = event1
                 schedule[j] = event2
                 conflicts_resolved += 1
+    print(f"Conflicts resolved: {conflicts_resolved}")
     return schedule, conflicts_resolved
 
 def adjust_event(event):
@@ -536,6 +541,16 @@ def main():
             n += 1
             print(f"{n}. {entry}")
     print("\nFitness Score:", gBest_fitness)
+    # exporting to json
+    # The gBest now holds the best found schedule
+    grouped_schedule = group_schedule_by_section(gBest)
+
+    # Convert the schedule to a format suitable for JSON
+    json_schedule = {section: [list(entry) for entry in entries] for section, entries in grouped_schedule.items()}
+
+    # Save the schedule to a JSON file
+    with open('schedule.json', 'w') as f:
+        json.dump(json_schedule, f, indent=4)
 
 
     # The gBest now holds the best found schedule
