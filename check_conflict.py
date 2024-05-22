@@ -30,8 +30,10 @@ def main():
   for section, entries in json_data.items():
       for entry in entries:
           data.append(tuple(entry))
-  print(data[1])
+  #print(data[1])
   check_conflicts(data)
+  if check_conflicts(data) == []:
+    print("No conflicts found.")
 
 
 if __name__ == '__main__':

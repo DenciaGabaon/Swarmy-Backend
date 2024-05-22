@@ -63,7 +63,7 @@ time_slots = {
     'D1_H1': {'day': 'Monday', 'start': 7, 'end': 8},
     'D1_H2': {'day': 'Monday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
     'D1_H3': {'day': 'Monday', 'start': 9, 'end': 10},  # 9:00 AM to 10:00 AM
-    'D1_4': {'day': 'Monday', 'start': 10, 'end': 11},  # 10:00 AM to 11:00 AM
+    'D1_H4': {'day': 'Monday', 'start': 10, 'end': 11},  # 10:00 AM to 11:00 AM
     'D1_H5': {'day': 'Monday', 'start': 11, 'end': 12},  # 11:00 AM to 12:00 PM
     'D1_H6': {'day': 'Monday', 'start': 12, 'end': 13},  # 12:00 PM to 1:00 PM
     'D1_H7': {'day': 'Monday', 'start': 13, 'end': 14},  # 1:00 PM to 2:00 PM
@@ -152,6 +152,7 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
         section_time_slots = defaultdict(list)  # Store the used time slots for each section
         section_day_classes = defaultdict(lambda: defaultdict(int))  # Store the number of classes for each day for each section
         section_assigned_subjects = defaultdict(set)  # Store the assigned subjects for each section
+        professor_time_slots = defaultdict(set)  # Store the used time slots for each professor
 
         for year, year_sections in sections.items():
             for section in year_sections:
@@ -162,35 +163,34 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
 
                     # Skip this subject if it has already been assigned to this section
                     if subject in section_assigned_subjects[section]:
-                        print(f"{subject} has already been assigned to {section}. Skipping subject.")
                         continue
 
-                    available_professors = [prof for prof in professors if subject in professors[prof]['preferred_subjects'] and prof not in assigned_subjects]
+                    available_professors = [prof for prof in professors if subject in professors[prof]['preferred_subjects']]
                     if not available_professors:
                         available_professors = list(professors.keys())  # Fallback to any professor if still empty
 
                     professor = random.choice(available_professors)
-                    assigned_subjects.add(professor)
 
                     subject_units = subjects[year][subject]['units']
                     subject_type = subjects[year][subject]['type']
                     expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
+                    print("Expected Duration: ", expected_duration)
 
                     # Sort the time slots by start time
                     sorted_time_slots = sorted(time_slots.items(), key=lambda ts: ts[1]['start'])
 
                     # Find all ranges of consecutive time slots that can accommodate the expected duration
                     suitable_time_slot_ranges = []
+                    print("suitable Time Slots: ", suitable_time_slot_ranges)
                     for i in range(len(sorted_time_slots) - expected_duration + 1):
-                        time_slot_range = sorted_time_slots[i:i+expected_duration]
+                        time_slot_range = sorted_time_slots[i:i + expected_duration]
                         time_slot_ids = [ts[0] for ts in time_slot_range]
 
                         # Check if all time slots in the range are available and the day of the week is available
-                        if all(ts not in section_time_slots[section] for ts in time_slot_ids) and all(section_day_classes[section][time_slots[ts]['day']] < max_classes_per_day for ts in time_slot_ids):
+                        if all(ts not in section_time_slots[section] and ts not in professor_time_slots[professor] for ts in time_slot_ids) and all(section_day_classes[section][time_slots[ts]['day']] < max_classes_per_day for ts in time_slot_ids):
                             suitable_time_slot_ranges.append(time_slot_ids)
 
                     if not suitable_time_slot_ranges:  # If no suitable range of time slots is found, skip this subject
-                        print(f"No available time slots for {subject} in {section}. Skipping subject.")
                         continue
 
                     # Randomly select a suitable range of time slots
@@ -198,6 +198,7 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
 
                     # Add the used time slots to the section's list and increment the number of classes for each day
                     section_time_slots[section].extend(time_slot_ids)
+                    professor_time_slots[professor].update(time_slot_ids)
                     for ts in time_slot_ids:
                         section_day_classes[section][time_slots[ts]['day']] += 1
 
@@ -213,7 +214,7 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
         # Validate the generated schedule
         validated_schedule = validate_position(schedule)
         if validated_schedule:
-            return validated_schedule
+            return schedule
 
     # If no valid schedule is found after maximum attempts, return None
     return None
@@ -441,7 +442,8 @@ def adjust_schedule(schedule):
                 schedule[i] = event1
                 schedule[j] = event2
                 conflicts_resolved += 1
-    print(f"Conflicts resolved: {conflicts_resolved}")
+
+    #print(f"Conflicts resolved: {conflicts_resolved}")
     return schedule, conflicts_resolved
 
 def adjust_event(event):
