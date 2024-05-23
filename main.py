@@ -36,7 +36,7 @@ sections = {
 }
 
 professors = {
-    'Prof A': {'preferred_time': 'D1_H2', 'preferred_subjects': ['GEC1-M', 'CC131L-M']},
+    'Prof A': {'preferred_time': 'AM', 'preferred_subjects': ['CC113-M', 'CC131L-M']},
     'Prof B': {'preferred_time': '', 'preferred_subjects': ['', '']},
     'Prof C': {'preferred_time': '', 'preferred_subjects': ['', '']},
     'Prof D': {'preferred_time': '', 'preferred_subjects': ['', '']},
@@ -155,14 +155,16 @@ class Particle:
 def initialize_particle(sections, subjects, professors, time_slots, rooms, max_attempts=1000):
     max_classes_per_day = 6  # Set this to the maximum number of classes you want per day'
 
-    # Group time slots by day
-    time_slots_by_day = defaultdict(list)
+    # Group time slots by day and time period (AM/PM)
+    time_slots_by_day = defaultdict(lambda: {'AM': [], 'PM': []})
     for ts_id, ts_info in time_slots.items():
-        time_slots_by_day[ts_info['day']].append((ts_id, ts_info))
+        period = 'AM' if 7 <= ts_info['start'] < 12 else 'PM'
+        time_slots_by_day[ts_info['day']][period].append((ts_id, ts_info))
 
-    # Sort time slots within each day by start time
-    for day in time_slots_by_day:
-        time_slots_by_day[day].sort(key=lambda ts: ts[1]['start'])
+        # Sort time slots within each day and period by start time
+        for day in time_slots_by_day:
+            time_slots_by_day[day]['AM'].sort(key=lambda ts: ts[1]['start'])
+            time_slots_by_day[day]['PM'].sort(key=lambda ts: ts[1]['start'])
 
     for _ in range(max_attempts):
         schedule = []
@@ -185,6 +187,7 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
 
                     available_professors = [prof for prof in professors if subject in professors[prof]['preferred_subjects']]
                     if not available_professors:
+                        print(f"No preferred professor for {subject}. Using any professor.")
                         available_professors = list(professors.keys())  # Fallback to any professor if still empty
 
                     professor = random.choice(available_professors)
@@ -192,31 +195,51 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                     subject_units = subjects[year][subject]['units']
                     subject_type = subjects[year][subject]['type']
                     expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
-                    print(f"Expected Duration for {subject} in {section}: {expected_duration}")
+                    #print(f"Expected Duration for {subject} in {section}: {expected_duration}")
 
+                    # Determine preferred period (AM/PM) for the professor
+                    if professors[professor]['preferred_time']:
+                        preferred_period = 'AM' if 'AM' in professors[professor]['preferred_time'] else 'PM'
+                        print(f"Preferred time of {professor} for {subject}: {professors[professor]['preferred_time']}")
+                    else:
+                        print(f"No preferred time for {professor}. Using any period.")
+                        preferred_period = None
 
                     # Find all ranges of consecutive time slots that can accommodate the expected duration
                     suitable_time_slot_ranges = []
-
+                    preferred_time_slot_ranges = []
 
                     # Check consecutive time slots within each day
-                    for day, slots in time_slots_by_day.items():
-                        for i in range(len(slots) - expected_duration + 1):
-                            time_slot_range = slots[i:i + expected_duration]
-                            time_slot_ids = [ts[0] for ts in time_slot_range]
+                    for day, periods in time_slots_by_day.items():
+                        for period, slots in periods.items():
+                            for i in range(len(slots) - expected_duration + 1):
+                                time_slot_range = slots[i:i + expected_duration]
+                                time_slot_ids = [ts[0] for ts in time_slot_range]
 
-                            # Check if all time slots in the range are available for the section and professor
-                            if all(ts not in section_time_slots[section] and ts not in professor_time_slots[professor] for ts in time_slot_ids):
-                                if all(section_day_classes[section][day] < max_classes_per_day for ts in time_slot_ids):
-                                    suitable_time_slot_ranges.append(time_slot_ids)
+                                # Check if all time slots in the range are available for the section and professor
+                                if all(ts not in section_time_slots[section] and ts not in professor_time_slots[professor] for ts in time_slot_ids):
+                                    if all(section_day_classes[section][day] < max_classes_per_day for ts in time_slot_ids):
+                                        suitable_time_slot_ranges.append(time_slot_ids)
+                                        # Prioritize the preferred time slot ranges
+                                        if period == preferred_period:
+                                            print(f"Preferred Time Slot Range found for {subject} in {section} on {day} {period}. Using it.")
+                                            preferred_time_slot_ranges.append(time_slot_ids)
 
-                    if not suitable_time_slot_ranges:  # If no suitable range of time slots is found, skip this subject
-                        print(f"No suitable time slot range found for {subject} in {section}. Skipping.")
+                    # Prioritize preferred time slot ranges if available
+                    if preferred_time_slot_ranges:
+                        selected_time_slot_ranges = preferred_time_slot_ranges
+                        #print(f"Preferred Time Slot Range found for {subject} in {section}. Using it.")
+                    else:
+                        #print(f"No preferred time slot range found for {subject} in {section}. Using any suitable range.")
+                        selected_time_slot_ranges = suitable_time_slot_ranges
+
+                    if not selected_time_slot_ranges:  # If no suitable range of time slots is found, skip this subject
+                        #print(f"No suitable time slot range found for {subject} in {section}. Skipping.")
                         continue
 
                     # Randomly select a suitable range of time slots
                     time_slot_ids = random.choice(suitable_time_slot_ranges)
-                    print(f"Selected Time Slots for {subject} in {section}: {time_slot_ids}")
+                    #print(f"Selected Time Slots for {subject} in {section}: {time_slot_ids}")
 
                     # Add the used time slots to the section's list and increment the number of classes for each day
                     section_time_slots[section].extend(time_slot_ids)
@@ -229,7 +252,7 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                     # Add an entry to the schedule for each time slot in the range
                     for time_slot in time_slot_ids:
                         schedule.append((section, subject, professor, time_slot, room))
-                        print(f"Added {subject} in {section} at {time_slot} with {professor} in {room}")
+                        #print(f"Added {subject} in {section} at {time_slot} with {professor} in {room}")
 
                     # Add the subject to the section's assigned subjects
                     section_assigned_subjects[section].add(subject)
