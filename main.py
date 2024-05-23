@@ -153,7 +153,8 @@ class Particle:
 
 
 def initialize_particle(sections, subjects, professors, time_slots, rooms, max_attempts=1000):
-    max_classes_per_day = 6  # Set this to the maximum number of classes you want per day'
+    max_classes_per_day = 6  # Set this to the maximum number of classes you want per day
+    max_teaching_hours = 30  # Maximum teaching hours allowed per professor
 
     # Group time slots by day and time period (AM/PM)
     time_slots_by_day = defaultdict(lambda: {'AM': [], 'PM': []})
@@ -173,6 +174,7 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
         section_day_classes = defaultdict(lambda: defaultdict(int))  # Store the number of classes for each day for each section
         section_assigned_subjects = defaultdict(set)  # Store the assigned subjects for each section
         professor_time_slots = defaultdict(set)  # Store the used time slots for each professor
+        professor_hours_taught = defaultdict(int) # Store the total teaching hours for each professor
 
         for year, year_sections in sections.items():
             for section in year_sections:
@@ -190,19 +192,28 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                         print(f"No preferred professor for {subject}. Using any professor.")
                         available_professors = list(professors.keys())  # Fallback to any professor if still empty
 
-                    professor = random.choice(available_professors)
-
                     subject_units = subjects[year][subject]['units']
                     subject_type = subjects[year][subject]['type']
                     expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
+
+                     # Check if any professor has not exceeded the teaching hours limit
+                    professors_within_limit = [prof for prof in available_professors if professor_hours_taught[prof] + expected_duration <= max_teaching_hours]
+
+                    if not professors_within_limit:
+                        print(f"No professor available within the teaching hours limit for {subject} in {section}. Skipping.")
+                        professor = random.choice(available_professors)  # Fallback to any professor if still empty
+                    else:
+                        print(f"Available professors within the teaching hours limit for {subject} in {section}: {professors_within_limit}")
+                        professor = random.choice(professors_within_limit)
+
                     #print(f"Expected Duration for {subject} in {section}: {expected_duration}")
 
                     # Determine preferred period (AM/PM) for the professor
                     if professors[professor]['preferred_time']:
                         preferred_period = 'AM' if 'AM' in professors[professor]['preferred_time'] else 'PM'
-                        print(f"Preferred time of {professor} for {subject}: {professors[professor]['preferred_time']}")
+                        #print(f"Preferred time of {professor} for {subject}: {professors[professor]['preferred_time']}")
                     else:
-                        print(f"No preferred time for {professor}. Using any period.")
+                        #print(f"No preferred time for {professor}. Using any period.")
                         preferred_period = None
 
                     # Find all ranges of consecutive time slots that can accommodate the expected duration
@@ -222,7 +233,7 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                                         suitable_time_slot_ranges.append(time_slot_ids)
                                         # Prioritize the preferred time slot ranges
                                         if period == preferred_period:
-                                            print(f"Preferred Time Slot Range found for {subject} in {section} on {day} {period}. Using it.")
+                                            #print(f"Preferred Time Slot Range found for {subject} in {section} on {day} {period}. Using it.")
                                             preferred_time_slot_ranges.append(time_slot_ids)
 
                     # Prioritize preferred time slot ranges if available
@@ -256,6 +267,14 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
 
                     # Add the subject to the section's assigned subjects
                     section_assigned_subjects[section].add(subject)
+
+                    # Update the total teaching hours for the professor
+                    professor_hours_taught[professor] += expected_duration
+
+                    # Check if the professor has exceeded the maximum teaching hours
+                    if professor_hours_taught[professor] > max_teaching_hours:
+                        print(f"Professor {professor} has exceeded the maximum teaching hours. {professor_hours_taught[professor]}")
+
 
         # Validate the generated schedule
         validated_schedule = validate_position(schedule)
