@@ -189,7 +189,7 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
 
                     available_professors = [prof for prof in professors if subject in professors[prof]['preferred_subjects']]
                     if not available_professors:
-                        print(f"No preferred professor for {subject}. Using any professor.")
+                        #print(f"No preferred professor for {subject}. Using any professor.")
                         available_professors = list(professors.keys())  # Fallback to any professor if still empty
 
                     subject_units = subjects[year][subject]['units']
@@ -200,10 +200,10 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                     professors_within_limit = [prof for prof in available_professors if professor_hours_taught[prof] + expected_duration <= max_teaching_hours]
 
                     if not professors_within_limit:
-                        print(f"No professor available within the teaching hours limit for {subject} in {section}. Skipping.")
+                        #print(f"No professor available within the teaching hours limit for {subject} in {section}. Skipping.")
                         professor = random.choice(available_professors)  # Fallback to any professor if still empty
                     else:
-                        print(f"Available professors within the teaching hours limit for {subject} in {section}: {professors_within_limit}")
+                        #print(f"Available professors within the teaching hours limit for {subject} in {section}: {professors_within_limit}")
                         professor = random.choice(professors_within_limit)
 
                     #print(f"Expected Duration for {subject} in {section}: {expected_duration}")
@@ -272,8 +272,8 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
                     professor_hours_taught[professor] += expected_duration
 
                     # Check if the professor has exceeded the maximum teaching hours
-                    if professor_hours_taught[professor] > max_teaching_hours:
-                        print(f"Professor {professor} has exceeded the maximum teaching hours. {professor_hours_taught[professor]}")
+                    #if professor_hours_taught[professor] > max_teaching_hours:
+                        #print(f"Professor {professor} has exceeded the maximum teaching hours. {professor_hours_taught[professor]}")
 
 
         # Validate the generated schedule
@@ -292,7 +292,7 @@ def initialize_swarm(swarm_size, sections, subjects, professors, time_slots, roo
         position = None
         while position is None:
             position = initialize_particle(sections, subjects, professors, time_slots, rooms)
-            print("Initial Position: ", position)
+            #print("Initial Position: ", position)
             position, _ = adjust_schedule(position)
         velocity = [0] * len(position)  # Initial velocity
         swarm.append(Particle(position, velocity))
@@ -335,7 +335,7 @@ def calculate_conflicts(schedule):
             used_time_slot_end = time_slots[used_time_slot]['end']
 
             if room == used_room and not (time_slot_end <= used_time_slot_start or time_slot_start >= used_time_slot_end):
-                print(f"Room conflict detected for {room} at {time_slot}.")
+                #print(f"Room conflict detected for {room} at {time_slot}.")
                 conflicts += 1
         time_room_usage[(time_slot, room)] = True
 
@@ -345,7 +345,7 @@ def calculate_conflicts(schedule):
             used_time_slot_end = time_slots[used_time_slot]['end']
 
             if professor == used_professor and not (time_slot_end <= used_time_slot_start or time_slot_start >= used_time_slot_end):
-                print(f"Professor conflict detected for {professor} at {time_slot}.")
+                #print(f"Professor conflict detected for {professor} at {time_slot}.")
                 conflicts += 1
         time_professor_usage[(time_slot, professor)] = True
 
