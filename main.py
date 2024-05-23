@@ -50,6 +50,7 @@ professors = {
     'Prof L': {'preferred_time': '', 'preferred_subjects': ['', '']},
     # Add more professors as needed
 }
+#COMPUTER SCIENCE SUBJECTS
 
 #First Semester
 subjects = {
@@ -58,6 +59,84 @@ subjects = {
     3: {'CC311L-M': {'type': 'lab', 'units': 1}, 'CC312-M': {'type': 'lec', 'units': 2}, 'CS313-M': {'type': 'lec', 'units': 3}, 'CS333-M': {'type': 'lec', 'units': 3}, 'CS351L-M': {'type': 'lab', 'units': 1}, 'CS352-M': {'type': 'lec', 'units': 2}, 'CS373-M': {'type': 'lec', 'units': 3}, 'CSE1-M': {'type': 'lec', 'units': 3}, 'CSE2-M': {'type': 'lec', 'units': 3}},
     4: {'CS413-M': {'type': 'lec', 'units': 3}, 'CS433-M': {'type': 'lec', 'units': 3}, 'GEE11D-M': {'type': 'lec', 'units': 3}, 'GEE12D-M': {'type': 'lec', 'units': 3}, 'GEE13D-M': {'type': 'lec', 'units': 3}, 'GEM14-M': {'type': 'lec', 'units': 3}}
 }
+#Second Semester
+subjects = {
+    1: {'CC141L-M', 'CC142-M', 'CC103-M', 'CS123-M', 'GEC2-M', 'GEC3-M', 'GEC5-M', 'MATHA35-M', 'NSTP2-M', 'PE2-M'},
+    2: {'CC211L-M', 'CC212-M', 'CS213-M', 'CS233-M', 'CS251L-M', 'CS252-M', 'CS271L-M', 'CS272-M', 'GEC8-M', 'GEC6-M', 'PE3-M'},
+    3: {'CC303-M', 'CS303-M', 'CS321L-M', 'CS322-M', 'CS343-M', 'CS361L-M', 'CS362-M', 'CSE3-M', 'CSE4-M'},
+    4: {'CS403', 'CS423'}
+}
+
+
+#COMPUTER SCIENCE NON STEM SUBJECTS
+
+#First Semester
+# First Semester
+subjects = {
+  1: {'CC113-M', 'CC131L-M', 'CC132-M', 'GEC4-M', 'GEC7-M', 'CHEMGENL-M', 'CHEMGEN-M', 'MATHA05-M', 'NSTP1-M', 'PE1-M'},
+  2: {'CC211L-M', 'CC212-M', 'CS213-M', 'CS233-M', 'CS251L-M', 'CS252-M', 'CS271L-M', 'CS272-M', 'GEC8-M', 'GEC6-M', 'GEC1-M', 'PE3-M'},
+  3: {'CS311L-M', 'CS312-M', 'CS313-M', 'CS333-M', 'CS351L-M', 'CS352-M', 'CS373-M', 'CSE1-M', 'CSE2-M', 'GEC2-M', 'GEC3-M'},
+  4: {'CS413-M', 'CS413-M', 'GEE11D-M', 'GEE12D-M', 'GEE13D-M', 'GEM14-M'}
+}
+
+# Second Semester
+subjects = {
+    1: {'CC141L-M', 'CC142-M', 'CC103-M', 'CS123-M', 'GEC5-M', 'PHYSGENL-M', 'PHYSGEN-M', 'MATHA35-M', 'NSTP2', 'PE2-M'},
+    2: {'CC201L-M', 'CC202-M', 'CC223-M', 'CS201L-M', 'CS202--M', 'CS221L--M', 'CS222--M', 'CS243-M', 'CS261L-M', 'CS262-M'},
+    3: {'CC303-M', 'CS303-M', 'CS321L-M', 'CS322-M', 'CS343-M', 'CS361L-M', 'CS362-M', 'CSE3-M', 'CSE4-M'},
+    4: {'CS403', 'CS423'}
+}
+
+
+
+
+#INFORMATION TECHNOLOGY SUBJECTS
+
+#First Semester
+subjects = {
+
+}
+#Second Semester
+subjects = {
+
+}
+
+
+#INFORMATION TECHNOLOGY NON STEM SUBJECTS
+
+#First Semester
+subjects = {
+
+}
+#Second Semester
+subjects = {
+
+}
+
+
+#INFORMATION SYSTEMS SUBJECTS
+
+#First Semester
+subjects = {
+
+}
+#Second Semester
+subjects = {
+
+}
+
+
+#INFORMATION SYSTEMS NON STEM SUBJECTS
+#First Semester
+subjects = {
+
+}
+#Second Semester
+subjects = {
+
+}
+
+
 
 rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b']
 time_slots = {
