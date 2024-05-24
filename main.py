@@ -64,12 +64,11 @@ subjects = {
 }
 #Second Semester
 subjects = {
-    1: {'CC141L-M', 'CC142-M', 'CC103-M', 'CS123-M', 'GEC2-M', 'GEC3-M', 'GEC5-M', 'MATHA35-M', 'NSTP2-M', 'PE2-M'},
-    2: {'CC211L-M', 'CC212-M', 'CS213-M', 'CS233-M', 'CS251L-M', 'CS252-M', 'CS271L-M', 'CS272-M', 'GEC8-M', 'GEC6-M', 'PE3-M'},
-    3: {'CC303-M', 'CS303-M', 'CS321L-M', 'CS322-M', 'CS343-M', 'CS361L-M', 'CS362-M', 'CSE3-M', 'CSE4-M'},
-    4: {'CS403', 'CS423'}
+    1: {'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'CC103-M': {'type': 'lec', 'units': 3}, 'CS123-M': {'type': 'lec', 'units': 3}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC3-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'MATHA35-M': {'type': 'lec', 'units': 5}, 'NSTP2-M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}},
+    2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'CS201L-M': {'type': 'lab', 'units': 1}, 'CS202--M': {'type': 'lec', 'units': 2}, 'CS221L--M': {'type': 'lab', 'units': 1}, 'CS222--M': {'type': 'lec', 'units': 2}, 'CS243-M': {'type': 'lec', 'units': 3}, 'CS261L-M': {'type': 'lab', 'units': 1}, 'CS262-M': {'type': 'lec', 'units': 2}, 'PE3-M': {'type': 'lec', 'units': ''}},
+    3: {'CC303-M': {'type': 'lec', 'units': 3}, 'CS303-M': {'type': 'lec', 'units': 3}, 'CS321L-M': {'type': 'lab', 'units': 1}, 'CS322-M': {'type': 'lec', 'units': 2}, 'CS343-M': {'type': 'lec', 'units': 3}, 'CS361L-M': {'type': 'lab', 'units': 1}, 'CS362-M': {'type': 'lec', 'units': 2}, 'CSE3-M': {'type': 'lec', 'units': 3}, 'CSE4-M': {'type': 'lec', 'units': 3}},
+    4: {'CS403': {'type': 'lab', 'units': 6}, 'CS423': {'type': 'lec', 'units': 3}}
 }
-
 
 
 
@@ -78,21 +77,21 @@ subjects = {
 
 #COMPUTER SCIENCE NON STEM SUBJECTS
 
-#First Semester
+
 # First Semester
 subjects = {
-  1: {'CC113-M', 'CC131L-M', 'CC132-M', 'GEC4-M', 'GEC7-M', 'CHEMGENL-M', 'CHEMGEN-M', 'MATHA05-M', 'NSTP1-M', 'PE1-M'},
-  2: {'CC211L-M', 'CC212-M', 'CS213-M', 'CS233-M', 'CS251L-M', 'CS252-M', 'CS271L-M', 'CS272-M', 'GEC8-M', 'GEC6-M', 'GEC1-M', 'PE3-M'},
-  3: {'CS311L-M', 'CS312-M', 'CS313-M', 'CS333-M', 'CS351L-M', 'CS352-M', 'CS373-M', 'CSE1-M', 'CSE2-M', 'GEC2-M', 'GEC3-M'},
-  4: {'CS413-M', 'CS413-M', 'GEE11D-M', 'GEE12D-M', 'GEE13D-M', 'GEM14-M'}
+    1: {'CC113-M': {'type': 'lec', 'units': 3}, 'CC131L-M': {'type': 'lab', 'units': 1}, 'CC132-M': {'type': 'lec', 'units': 2}, 'GEC4-M': {'type': 'lec', 'units': 3}, 'GEC7-M': {'type': 'lec', 'units': 3}, 'CHEMGENL-M': {'type': 'lab', 'units': 1}, 'CHEMGEN-M': {'type': 'lec', 'units': 4}, 'MATHA05-M': {'type': 'lec', 'units': 5}, 'NSTP1-M': {'type': 'lec', 'units': 3}, 'PE1-M': {'type': 'lec', 'units': 2}},
+    2: {'CC211L-M': {'type': 'lab', 'units': 1}, 'CC212-M': {'type': 'lec', 'units': 2}, 'CS213-M': {'type': 'lec', 'units': 3}, 'CS233-M': {'type': 'lec', 'units': 3}, 'CS251L-M': {'type': 'lab', 'units': 1}, 'CS252-M': {'type': 'lec', 'units': 2}, 'CS271L-M': {'type': 'lab', 'units': 1}, 'CS272-M': {'type': 'lec', 'units': 2}, 'GEC8-M': {'type': 'lec', 'units': 3}, 'GEC6-M': {'type': 'lec', 'units': 3}, 'GEC1-M': {'type': 'lec', 'units': 3}, 'PE3-M': {'type': 'lec', 'units': 2}},
+    3: {'CS311L-M': {'type': 'lab', 'units': 1}, 'CS312-M': {'type': 'lec', 'units': 2}, 'CS313-M': {'type': 'lec', 'units': 3}, 'CS333-M': {'type': 'lec', 'units': 3}, 'CS351L-M': {'type': 'lab', 'units': 1}, 'CS352-M': {'type': 'lec', 'units': 2}, 'CS373-M': {'type': 'lec', 'units': 3}, 'CSE1-M': {'type': 'lec', 'units': 3}, 'CSE2-M': {'type': 'lec', 'units': 3}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC3-M': {'type': 'lec', 'units': 3}},
+    4: {'CS413-M': {'type': 'lec', 'units': 3}, 'GEE11D-M': {'type': 'lec', 'units': 3}, 'GEE12D-M': {'type': 'lec', 'units': 3}, 'GEE13D-M': {'type': 'lec', 'units': 3}, 'GEM14-M': {'type': 'lec', 'units': 3}}
 }
 
 # Second Semester
 subjects = {
-    1: {'CC141L-M', 'CC142-M', 'CC103-M', 'CS123-M', 'GEC5-M', 'PHYSGENL-M', 'PHYSGEN-M', 'MATHA35-M', 'NSTP2', 'PE2-M'},
-    2: {'CC201L-M', 'CC202-M', 'CC223-M', 'CS201L-M', 'CS202--M', 'CS221L--M', 'CS222--M', 'CS243-M', 'CS261L-M', 'CS262-M'},
-    3: {'CC303-M', 'CS303-M', 'CS321L-M', 'CS322-M', 'CS343-M', 'CS361L-M', 'CS362-M', 'CSE3-M', 'CSE4-M'},
-    4: {'CS403', 'CS423'}
+    1: {'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'CC103-M': {'type': 'lec', 'units': 3}, 'CS123--M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'PHYSGENL-M': {'type': 'lab', 'units': 1}, 'PHYSGEN-M': {'type': 'lec', 'units': 4}, 'MATHA35-M': {'type': 'lec', 'units': 5}, 'NSTP2': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}},
+    2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'CS201L-M': {'type': 'lab', 'units': 1}, 'CS202--M': {'type': 'lec', 'units': 2}, 'CS221L--M': {'type': 'lab', 'units': 1}, 'CS222--M': {'type': 'lec', 'units': 2}, 'CS243-M': {'type': 'lec', 'units': 3}, 'CS261L-M': {'type': 'lab', 'units': 1}, 'CS262-M': {'type': 'lec', 'units': 2}},
+    3: {'CC303-M': {'type': 'lec', 'units': 3}, 'CS303-M': {'type': 'lec', 'units': 3}, 'CS321L-M': {'type': 'lab', 'units': 1}, 'CS322-M': {'type': 'lec', 'units': 2}, 'CS343-M': {'type': 'lec', 'units': 3}, 'CS361L-M': {'type': 'lab', 'units': 1}, 'CS362-M': {'type': 'lec', 'units': 2}, 'CSE3-M': {'type': 'lec', 'units': 3}, 'CSE4-M': {'type': 'lec', 'units': 3}},
+    4: {'CS403': {'type': 'lab', 'units': 6}, 'CS423': {'type': 'lec', 'units': 3}}
 }
 
 
@@ -104,21 +103,20 @@ subjects = {
 
 #First Semester
 subjects = {
-    1: {'CC113-M', 'CC131L-M', 'CC132-M', 'GEC1-M', 'GEC4-M', 'GEC7-M', 'MATHA05S-M', 'NSTP1--M', 'PE1-M'},
-    2: {'CC211L-M', 'CC212-M', 'GEC6-M', 'GEC8-M', 'IT211L-M', 'IT212-M', 'IT231L-M', 'IT232-M', 'IT251L-M', 'IT252-M', 'PE3-M'},
-    3: {'CC311L-M', 'CC312-M', 'IT311L-M', 'IT312--M', 'IT331L_M', 'IT332_M', 'IT353-M', 'ITE2-M', 'ITE3-M'},
-    4: {'GEE12D-M', 'GEE13D-M', 'GEM14-M', 'IT413-M', 'IT433-M', 'IT453-M'}
+    1: {'CC113-M': {'type': 'lec', 'units': 3}, 'CC131L-M': {'type': 'lab', 'units': 1}, 'CC132-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': 3}, 'GEC4-M': {'type': 'lec', 'units': 3}, 'GEC7-M': {'type': 'lec', 'units': 3}, 'MATHA05S-M': {'type': 'lec', 'units': 5}, 'NSTP1-M': {'type': 'lec', 'units': 3}, 'PE1-M': {'type': 'lec', 'units': 2}},
+    2: {'CC211L-M': {'type': 'lab', 'units': 1}, 'CC212-M': {'type': 'lec', 'units': 2}, 'GEC6-M': {'type': 'lec', 'units': 3}, 'GEC8-M': {'type': 'lec', 'units': 3}, 'PE3-M': {'type': 'lec', 'units': 2}, 'IT211L-M': {'type': 'lab', 'units': 1}, 'IT212-M': {'type': 'lec', 'units': 2}, 'IT231L-M': {'type': 'lab', 'units': 1}, 'IT232-M': {'type': 'lec', 'units': 2}, 'IT251L-M': {'type': 'lec', 'units': 1}, 'IT252-M': {'type': 'lec', 'units': 2}},
+    3: {'CC311L-M': {'type': 'lab', 'units': 1}, 'CC312-M': {'type': 'lec', 'units': 2}, 'IT311L-M': {'type': 'lab', 'units': 1}, 'IT312--M': {'type': 'lec', 'units': 2}, 'IT331L_M': {'type': 'lab', 'units': 1}, 'IT332_M': {'type': 'lec', 'units': 2}, 'IT353-M': {'type': 'lec', 'units': 3}, 'ITE2-M': {'type': 'lec', 'units': 3}, 'ITE3-M': {'type': 'lec', 'units': 3}},
+    4: {'GEE12D-M': {'type': 'lec', 'units': 3}, 'GEE13D-M': {'type': 'lec', 'units': 3}, 'GEM14-M': {'type': 'lec', 'units': 3}, 'IT413-M': {'type': 'lec', 'units': 3}, 'IT433-M': {'type': 'lec', 'units': 3}, 'IT453-M': {'type': 'lec', 'units': 3}}
 }
 
 
 #Second Semester
 subjects = {
-    1: {'CC103-M', 'CC141L-M', 'CC142-M', 'GEC2-M', 'GEC3-M', 'GEC5-M','IT123-M', 'MATHSTAT03-M', 'NSTP2--M', 'PE2-M'},
-    2: {'CC201L-M', 'CC202-M', 'CC223-M', 'IT201L--M', 'IT202--M', 'IT223-M', 'IT241L-M', 'IT242-M', 'IT261L-M', 'IT262-M'},
-    3: {'CC303-M', 'GEE11D-M', 'IT303--M', 'IT323', 'IT343_M', 'IT363-M', 'ITE4-M'},
-    4: {'IT406-M', 'IT423--M'}
+    1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC3-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IT123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2--M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}},
+    2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'IT201L--M': {'type': 'lec', 'units': 1}, 'IT202--M': {'type': 'lec', 'units': 2}, 'IT223-M': {'type': 'lec', 'units': 3}, 'IT241L-M': {'type': 'lab', 'units': 1}, 'IT242-M': {'type': 'lec', 'units': 2}, 'IT261L-M': {'type': 'lec', 'units': 1}, 'IT262-M': {'type': 'lec', 'units': 2}},
+    3: {'CC303-M': {'type': 'lec', 'units': 3}, 'GEE11D-M': {'type': 'lec', 'units': 3}, 'IT303--M': {'type': 'lec', 'units': 3}, 'IT323': {'type': 'lec', 'units': 3}, 'IT343_M': {'type': 'lec', 'units': 3}, 'IT363-M': {'type': 'lec', 'units': 3}, 'ITE4-M': {'type': 'lec', 'units': 3}},
+    4: {'IT406-M': {'type': 'lab', 'units': 9}, 'IT423--M': {'type': 'lec', 'units': 3}}
 }
-
 
 
 
@@ -128,20 +126,19 @@ subjects = {
 
 #First Semester
 subjects = {
-    1: {'CC113-M', 'CC131L-M', 'CC132-M', 'GEC4-M', 'GEC7-M', 'CHEMGENL-M', 'CHEMGEN-M', 'MATHA05-M', 'NSTP1-M', 'PE1-M'},
-    2: {'CC211L-M', 'CC212-M', 'IT211L-M', 'IT212-M', 'IT231L-M', 'IT232-M', 'IT251L-M', 'IT252-M', 'GEC2-M', 'GEC6-M', 'GEC8-M', 'PE3-M'},
-    3: {'CC311L-M', 'CC312-M', 'GEC3--M', 'IT311L-M', 'IT312--M', 'IT331L_M', 'IT332_M', 'IT353-M', 'ITE2-M', 'ITE3-M'},
-    4: {'GEE12D-M', 'GEE13D-M', 'GEM14-M', 'IT413-M', 'IT433-M', 'IT453-M'},
-
+    1: {'CC113-M': {'type': 'lec', 'units': 3}, 'CC131L-M': {'type': 'lab', 'units': 1}, 'CC132-M': {'type': 'lec', 'units': 2}, 'GEC4-M': {'type': 'lec', 'units': 3}, 'GEC7-M': {'type': 'lec', 'units': 3}, 'CHEMGENL-M': {'type': 'lab', 'units': 1}, 'CHEMGEN-M': {'type': 'lec', 'units': 4}, 'MATHA05-M': {'type': 'lec', 'units': 5}, 'NSTP1-M': {'type': 'lec', 'units': 3}, 'PE1-M': {'type': 'lec', 'units': 2}},
+    2: {'CC211L-M': {'type': 'lab', 'units': 1}, 'CC212-M': {'type': 'lec', 'units': 2}, 'IT211L-M': {'type': 'lab', 'units': 1}, 'IT212-M': {'type': 'lec', 'units': 2}, 'IT231L-M': {'type': 'lab', 'units': 1}, 'IT232-M': {'type': 'lec', 'units': 2}, 'IT251L-M': {'type': 'lab', 'units': 1}, 'IT252-M': {'type': 'lec', 'units': 2}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC6-M': {'type': 'lec', 'units': 3}, 'GEC8-M': {'type': 'lec', 'units': 3}, 'PE3-M': {'type': 'lec', 'units': 2}},
+    3: {'CC311L-M': {'type': 'lab', 'units': 1}, 'CC312-M': {'type': 'lec', 'units': 2}, 'GEC3--M': {'type': 'lec', 'units': 3}, 'IT311L-M': {'type': 'lab', 'units': 1}, 'IT312--M': {'type': 'lec', 'units': 2}, 'IT331L_M': {'type': 'lab', 'units': 1}, 'IT332_M': {'type': 'lec', 'units': 2}, 'IT353-M': {'type': 'lec', 'units': 3}, 'ITE2-M': {'type': 'lec', 'units': 3}, 'ITE3-M': {'type': 'lec', 'units': 3}},
+    4: {'GEE12D-M': {'type': 'lec', 'units': 3}, 'GEE13D-M': {'type': 'lec', 'units': 3}, 'GEM14-M': {'type': 'lec', 'units': 3}, 'IT413-M': {'type': 'lec', 'units': 3}, 'IT433-M': {'type': 'lec', 'units': 3}, 'IT453-M': {'type': 'lec', 'units': 3}}
 }
+
 
 #Second Semester
 subjects = {
-    1: {'CC103-M', 'CC141L-M', 'CC142-M', 'GEC1-M', 'GEC5-M', 'IT123-M', 'MATHSTAT03-M', 'NSTP2--M', 'PE2-M', 'PHYSGEN-M', 'PHYSGENL-M'},
-    2: {'CC201L-M', 'CC202-M', 'CC223-M', 'IT201L--M', 'IT202--M', 'IT223-M', 'IT241L--M', 'IT242--M'},
-    3: {'CC303-M', 'GEE11D-M', 'IT303--M', 'IT323', 'IT343_M', 'IT363-M', 'ITE4-M'},
-    4: {'IT406-M', 'IT423--M'}
-
+    1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IT123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2--M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}, 'PHYSGEN-M': {'type': 'lec', 'units': 4}, 'PHYSGENL-M': {'type': 'lab', 'units': 1}},
+    2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'IT201L--M': {'type': 'lec', 'units': 1}, 'IT202--M': {'type': 'lec', 'units': 2}, 'IT223-M': {'type': 'lec', 'units': 3}, 'IT241L--M': {'type': 'lab', 'units': 1}, 'IT242--M': {'type': 'lec', 'units': 2}, 'IT261L-M': {'type': 'lec', 'units': 1}, 'IT262-M': {'type': 'lec', 'units': 2}, 'ITE1-M': {'type': 'lec', 'units': 3}, 'PE4-M': {'type': 'lec', 'units': 2}},
+    3: {'CC303-M': {'type': 'lec', 'units': 3}, 'GEE11D-M': {'type': 'lec', 'units': 3}, 'IT303--M': {'type': 'lec', 'units': 3}, 'IT323': {'type': 'lec', 'units': 3}, 'IT343_M': {'type': 'lec', 'units': 3}, 'IT363-M': {'type': 'lec', 'units': 3}, 'ITE4-M': {'type': 'lec', 'units': 3}},
+    4: {'IT406-M': {'type': 'lab', 'units': 9}, 'IT423--M': {'type': 'lec', 'units': 3}}
 }
 
 
@@ -151,18 +148,20 @@ subjects = {
 #INFORMATION SYSTEMS SUBJECTS
 
 subjects = {
-    1: {'CC113-M', 'CC131L-M', 'CC132-M', 'GEC1-M', 'GEC4-M', 'GEC7-M', 'MATHA05S-M', 'NSTP1-M', 'PE1-M'},
-    2: {'CC211L-M', 'CC212-M', 'GEC6-M', 'GEC8-M', 'IS213-M', 'IS233--M', 'IS251L-M', 'IS252-M', 'PE3-M'},
-    3: {'CC311L-M', 'CC312-M', 'IS313-M', 'IS333-M', 'IS353-M', 'IS373-M', 'IS393-M', 'ISE2-M', 'ISE3-M'},
-    4: {'GEE11D-M', 'GEE12D-M', 'GEE13D-M', 'GEM14-M', 'IS413-M', 'IS433-M'}
+    1: {'CC113-M': {'type': 'lec', 'units': 3}, 'CC131L-M': {'type': 'lab', 'units': 1}, 'CC132-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': 3}, 'GEC4-M': {'type': 'lec', 'units': 3}, 'GEC7-M': {'type': 'lec', 'units': 3}, 'MATHA05S-M': {'type': 'lec', 'units': 5}, 'NSTP1-M': {'type': 'lec', 'units': 3}, 'PE1-M': {'type': 'lec', 'units': 2}},
+    2: {'CC211L-M': {'type': 'lab', 'units': 1}, 'CC212-M': {'type': 'lec', 'units': 2}, 'GEC6-M': {'type': 'lec', 'units': 3}, 'GEC8-M': {'type': 'lec', 'units': 3}, 'IS213-M': {'type': 'lec', 'units': 3}, 'IS233-M': {'type': 'lec', 'units': 3}, 'IS251L-M': {'type': 'lab', 'units': 1}, 'IS252-M': {'type': 'lec', 'units': 2}, 'PE3-M': {'type': 'lec', 'units': 2}},
+    3: {'CC311L-M': {'type': 'lab', 'units': 1}, 'CC312-M': {'type': 'lec', 'units': 2}, 'IS313-M': {'type': 'lec', 'units': 3}, 'IS333-M': {'type': 'lec', 'units': 3}, 'IS353-M': {'type': 'lec', 'units': 3}, 'IS373-M': {'type': 'lec', 'units': 3}, 'IS393-M': {'type': 'lec', 'units': 3}, 'ISE2-M': {'type': 'lec', 'units': 3}, 'ISE3-M': {'type': 'lec', 'units': 3}},
+    4: {'GEE11D-M': {'type': 'lec', 'units': 3},'GEE12D-M': {'type': 'lec', 'units': 3}, 'GEE13D-M': {'type': 'lec', 'units': 3}, 'GEM14-M': {'type': 'lec', 'units': 3}, 'IS413-M': {'type': 'lec', 'units': 3}, 'IS433-M': {'type': 'lec', 'units': 3},}
 }
 
+
 subjects = {
-    1: {'CC103-M', 'CC141L-M', 'CC142-M', 'GEC2-M', 'GEC3-M', 'GEC5-M', 'IS123-M', 'MATHSTAT03-M', 'NSTP2-M', 'PE2-M'},
-    2: {'CC201L-M', 'CC202-M', 'CC223-M', 'IS203-M', 'IS223-M', 'IS243-M', 'IS263-M', 'ISE1-M', 'PE4-M'},
-    3: {'CC303-M', 'IS303-M', 'IS323-M', 'IS343--M', 'IS363--M', 'IS383-M', 'ISE4-M'},
-    4: {'IS406-M', 'IS423-M'}
+    1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC3-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IS123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2--M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}},
+    2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'IS203-M': {'type': 'lec', 'units': 3}, 'IS223-M': {'type': 'lec', 'units': 3}, 'IS243-M': {'type': 'lec', 'units': 3}, 'IS263-M': {'type': 'lec', 'units': 3}, 'ISE1-M': {'type': 'lec', 'units': 3}, 'PE4-M': {'type': 'lec', 'units': 2}},
+    3: {'CC303-M': {'type': 'lec', 'units': 3}, 'IS303-M': {'type': 'lec', 'units': 3}, 'IS323-M': {'type': 'lec', 'units': 3}, 'IS343-M': {'type': 'lec', 'units': 3}, 'IS363-M': {'type': 'lec', 'units': 3}, 'IS383-M': {'type': 'lec', 'units': 3}, 'ISE4-M': {'type': 'lec', 'units': 3}},
+    4: {'IS406-M': {'type': 'lab', 'units': 9}, 'IS423-M': {'type': 'lec', 'units': 3}}
 }
+
 
 
 
@@ -170,19 +169,21 @@ subjects = {
 
 
 #INFORMATION SYSTEMS NON STEM SUBJECTS
-subjects_1 = {
-    1: {'CC113-M', 'CC131L-M', 'CC132-M', 'CHEMGEN-M', 'CHEMGENL-M', 'GEC4-M', 'GEC7-M', 'MATHA0S-M', 'NSTP1--M', 'PE1-M'},
-    2: {'CC211L-M', 'CC212-M', 'IT211L-M', 'IT212-M', 'IT231L-M', 'IT232-M', 'IT251L-M', 'IT252-M', 'GEC2-M', 'GEC6-M', 'GEC8M', 'PE3-M'},
-    3: {'CC311L-M', 'CC312-M', 'GEC3--M', 'IT311L-M', 'IT312--M', 'IT331L_M', 'IT332_M', 'IT353-M', 'ITE2-M', 'ITE3-M'},
-    4: {'GEE12D-M', 'GEE13D-M', 'GEM14-M', 'IT413-M', 'IT433-M', 'IT453-M'}
+subjects = {
+    1: {'CC113-M': {'type': 'lec', 'units': 3}, 'CC131L-M': {'type': 'lab', 'units': 1}, 'CC132-M': {'type': 'lec', 'units': 2}, 'GEC4-M': {'type': 'lec', 'units': 3}, 'GEC7-M': {'type': 'lec', 'units': 3}, 'CHEMGENL-M': {'type': 'lab', 'units': 1}, 'CHEMGEN-M': {'type': 'lec', 'units': 4}, 'MATHA05-M': {'type': 'lec', 'units': 5}, 'NSTP1-M': {'type': 'lec', 'units': 3}, 'PE1-M': {'type': 'lec', 'units': 2}},
+    2: {'CC211L-M': {'type': 'lab', 'units': 1}, 'CC212-M': {'type': 'lec', 'units': 2}, 'IS213-M': {'type': 'lec', 'units': 3}, 'IS233--M': {'type': 'lec', 'units': 3}, 'IS251L-M': {'type': 'lab', 'units': 1}, 'IS252-M': {'type': 'lec', 'units': 2}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC6-M': {'type': 'lec', 'units': 3}, 'GEC8-M': {'type': 'lec', 'units': 3}, 'PE3-M': {'type': 'lec', 'units': 2}},
+    3: {'CC312-M': {'type': 'lec', 'units': 1}, 'GEC3-M': {'type': 'lec', 'units': 2}, 'IS313-M': {'type': 'lec', 'units': 3}, 'IS333-M': {'type': 'lec', 'units': 3}, 'IS353-M': {'type': 'lec', 'units': 3}, 'IS373-M': {'type': 'lec', 'units': 3}, 'IS393-M': {'type': 'lec', 'units': 3}, 'ISE2-M': {'type': 'lec', 'units': 3}},
+    4: {'GEE11D-M': {'type': 'lec', 'units': 3}, 'GEE12D-M': {'type': 'lec', 'units': 3}, 'GEE13D-M': {'type': 'lec', 'units': 3}, 'GEM14-M': {'type': 'lec', 'units': 3}, 'IS413-M': {'type': 'lec', 'units': 3}, 'IS433-M': {'type': 'lec', 'units': 3}}
 }
 
-subjects_2 = {
-    1: {'CC103-M', 'CC141L-M', 'CC142-M', 'GEC1-M', 'GEC5-M', 'IT123-M', 'MATHSTATO3-M', 'NSTP2--M', 'PE2-M', 'PHYSGEN-M', 'PHYSGENL-M'},
-    2: {'CC201L-M', 'CC202-M', 'CC223-M', 'IT201L--M', 'IT202--M', 'IT223-M', 'IT241L--M', 'IT242--M', 'IT261L-M', 'IT262-M', 'ITE1-M', 'PE4-M'},
-    3: {'CC303-M', 'GEE11D-M', 'IT303--M', 'IT323', 'IT343_M', 'IT363-M', 'ITE4-M'},
-    4: {'IT406-M', 'IT423--M'}
+
+subjects = {
+    1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': ''}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IS123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2-M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}, 'PHYSGEN-M': {'type': 'lec', 'units': 4}, 'PHYSGENL-M': {'type': 'lab', 'units': 1}},
+    2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'IS203-M': {'type': 'lec', 'units': 3}, 'IS223-M': {'type': 'lec', 'units': 3}, 'IS243-M': {'type': 'lec', 'units': 3}, 'IS263-M': {'type': 'lec', 'units': 3}, 'ISE1-M': {'type': 'lec', 'units': 3}, 'PE4-M': {'type': 'lec', 'units': 2}},
+    3: {'CC303-M': {'type': 'lec', 'units': 3}, 'IS303-M': {'type': 'lec', 'units': 3}, 'IS323-M': {'type': 'lec', 'units': 3}, 'IS343-M': {'type': 'lec', 'units': 3}, 'IS363-M': {'type': 'lec', 'units': 3}, 'IS383-M': {'type': 'lec', 'units': 3}, 'ISE4-M': {'type': 'lec', 'units': 3}},
+    4: {'IS406-M': {'type': 'lab', 'units': 9}, 'IS423-M': {'type': 'lec', 'units': 3}}
 }
+
 
 
 
