@@ -50,6 +50,9 @@ professors = {
     'Prof L': {'preferred_time': '', 'preferred_subjects': ['', '']},
     # Add more professors as needed
 }
+
+
+
 #COMPUTER SCIENCE SUBJECTS
 
 #First Semester
@@ -66,6 +69,11 @@ subjects = {
     3: {'CC303-M', 'CS303-M', 'CS321L-M', 'CS322-M', 'CS343-M', 'CS361L-M', 'CS362-M', 'CSE3-M', 'CSE4-M'},
     4: {'CS403', 'CS423'}
 }
+
+
+
+
+
 
 
 #COMPUTER SCIENCE NON STEM SUBJECTS
@@ -90,55 +98,100 @@ subjects = {
 
 
 
+
+
 #INFORMATION TECHNOLOGY SUBJECTS
 
 #First Semester
 subjects = {
-
+    1: {'CC113-M', 'CC131L-M', 'CC132-M', 'GEC1-M', 'GEC4-M', 'GEC7-M', 'MATHA05S-M', 'NSTP1--M', 'PE1-M'},
+    2: {'CC211L-M', 'CC212-M', 'GEC6-M', 'GEC8-M', 'IT211L-M', 'IT212-M', 'IT231L-M', 'IT232-M', 'IT251L-M', 'IT252-M', 'PE3-M'},
+    3: {'CC311L-M', 'CC312-M', 'IT311L-M', 'IT312--M', 'IT331L_M', 'IT332_M', 'IT353-M', 'ITE2-M', 'ITE3-M'},
+    4: {'GEE12D-M', 'GEE13D-M', 'GEM14-M', 'IT413-M', 'IT433-M', 'IT453-M'}
 }
+
+
 #Second Semester
 subjects = {
-
+    1: {'CC103-M', 'CC141L-M', 'CC142-M', 'GEC2-M', 'GEC3-M', 'GEC5-M','IT123-M', 'MATHSTAT03-M', 'NSTP2--M', 'PE2-M'},
+    2: {'CC201L-M', 'CC202-M', 'CC223-M', 'IT201L--M', 'IT202--M', 'IT223-M', 'IT241L-M', 'IT242-M', 'IT261L-M', 'IT262-M'},
+    3: {'CC303-M', 'GEE11D-M', 'IT303--M', 'IT323', 'IT343_M', 'IT363-M', 'ITE4-M'},
+    4: {'IT406-M', 'IT423--M'}
 }
+
+
+
+
 
 
 #INFORMATION TECHNOLOGY NON STEM SUBJECTS
 
 #First Semester
 subjects = {
+    1: {'CC113-M', 'CC131L-M', 'CC132-M', 'GEC4-M', 'GEC7-M', 'CHEMGENL-M', 'CHEMGEN-M', 'MATHA05-M', 'NSTP1-M', 'PE1-M'},
+    2: {'CC211L-M', 'CC212-M', 'IT211L-M', 'IT212-M', 'IT231L-M', 'IT232-M', 'IT251L-M', 'IT252-M', 'GEC2-M', 'GEC6-M', 'GEC8-M', 'PE3-M'},
+    3: {'CC311L-M', 'CC312-M', 'GEC3--M', 'IT311L-M', 'IT312--M', 'IT331L_M', 'IT332_M', 'IT353-M', 'ITE2-M', 'ITE3-M'},
+    4: {'GEE12D-M', 'GEE13D-M', 'GEM14-M', 'IT413-M', 'IT433-M', 'IT453-M'},
 
 }
+
 #Second Semester
 subjects = {
+    1: {'CC103-M', 'CC141L-M', 'CC142-M', 'GEC1-M', 'GEC5-M', 'IT123-M', 'MATHSTAT03-M', 'NSTP2--M', 'PE2-M', 'PHYSGEN-M', 'PHYSGENL-M'},
+    2: {'CC201L-M', 'CC202-M', 'CC223-M', 'IT201L--M', 'IT202--M', 'IT223-M', 'IT241L--M', 'IT242--M'},
+    3: {'CC303-M', 'GEE11D-M', 'IT303--M', 'IT323', 'IT343_M', 'IT363-M', 'ITE4-M'},
+    4: {'IT406-M', 'IT423--M'}
 
 }
+
+
+
 
 
 #INFORMATION SYSTEMS SUBJECTS
 
-#First Semester
 subjects = {
-
+    1: {'CC113-M', 'CC131L-M', 'CC132-M', 'GEC1-M', 'GEC4-M', 'GEC7-M', 'MATHA05S-M', 'NSTP1-M', 'PE1-M'},
+    2: {'CC211L-M', 'CC212-M', 'GEC6-M', 'GEC8-M', 'IS213-M', 'IS233--M', 'IS251L-M', 'IS252-M', 'PE3-M'},
+    3: {'CC311L-M', 'CC312-M', 'IS313-M', 'IS333-M', 'IS353-M', 'IS373-M', 'IS393-M', 'ISE2-M', 'ISE3-M'},
+    4: {'GEE11D-M', 'GEE12D-M', 'GEE13D-M', 'GEM14-M', 'IS413-M', 'IS433-M'}
 }
-#Second Semester
+
 subjects = {
-
+    1: {'CC103-M', 'CC141L-M', 'CC142-M', 'GEC2-M', 'GEC3-M', 'GEC5-M', 'IS123-M', 'MATHSTAT03-M', 'NSTP2-M', 'PE2-M'},
+    2: {'CC201L-M', 'CC202-M', 'CC223-M', 'IS203-M', 'IS223-M', 'IS243-M', 'IS263-M', 'ISE1-M', 'PE4-M'},
+    3: {'CC303-M', 'IS303-M', 'IS323-M', 'IS343--M', 'IS363--M', 'IS383-M', 'ISE4-M'},
+    4: {'IS406-M', 'IS423-M'}
 }
+
+
+
+
 
 
 #INFORMATION SYSTEMS NON STEM SUBJECTS
-#First Semester
-subjects = {
-
+subjects_1 = {
+    1: {'CC113-M', 'CC131L-M', 'CC132-M', 'CHEMGEN-M', 'CHEMGENL-M', 'GEC4-M', 'GEC7-M', 'MATHA0S-M', 'NSTP1--M', 'PE1-M'},
+    2: {'CC211L-M', 'CC212-M', 'IT211L-M', 'IT212-M', 'IT231L-M', 'IT232-M', 'IT251L-M', 'IT252-M', 'GEC2-M', 'GEC6-M', 'GEC8M', 'PE3-M'},
+    3: {'CC311L-M', 'CC312-M', 'GEC3--M', 'IT311L-M', 'IT312--M', 'IT331L_M', 'IT332_M', 'IT353-M', 'ITE2-M', 'ITE3-M'},
+    4: {'GEE12D-M', 'GEE13D-M', 'GEM14-M', 'IT413-M', 'IT433-M', 'IT453-M'}
 }
-#Second Semester
-subjects = {
 
+subjects_2 = {
+    1: {'CC103-M', 'CC141L-M', 'CC142-M', 'GEC1-M', 'GEC5-M', 'IT123-M', 'MATHSTATO3-M', 'NSTP2--M', 'PE2-M', 'PHYSGEN-M', 'PHYSGENL-M'},
+    2: {'CC201L-M', 'CC202-M', 'CC223-M', 'IT201L--M', 'IT202--M', 'IT223-M', 'IT241L--M', 'IT242--M', 'IT261L-M', 'IT262-M', 'ITE1-M', 'PE4-M'},
+    3: {'CC303-M', 'GEE11D-M', 'IT303--M', 'IT323', 'IT343_M', 'IT363-M', 'ITE4-M'},
+    4: {'IT406-M', 'IT423--M'}
 }
+
+
+
 
 
 
 rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b']
+
+
 time_slots = {
     'D1_H1': {'day': 'Monday', 'start': 7, 'end': 8},
     'D1_H2': {'day': 'Monday', 'start': 8, 'end': 9},  # 8:00 AM to 9:00 AM
