@@ -60,7 +60,7 @@ professors = {
 #COMPUTER SCIENCE SUBJECTS
 
 #Second Semester
-subjects = {
+subjects_CS_2 = {
     1: {'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'CC103-M': {'type': 'lec', 'units': 3}, 'CS123-M': {'type': 'lec', 'units': 3}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC3-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'MATHA35-M': {'type': 'lec', 'units': 5}, 'NSTP2-M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}},
     2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'CS201L-M': {'type': 'lab', 'units': 1}, 'CS202--M': {'type': 'lec', 'units': 2}, 'CS221L--M': {'type': 'lab', 'units': 1}, 'CS222--M': {'type': 'lec', 'units': 2}, 'CS243-M': {'type': 'lec', 'units': 3}, 'CS261L-M': {'type': 'lab', 'units': 1}, 'CS262-M': {'type': 'lec', 'units': 2}, 'PE3-M': {'type': 'lec', 'units': ''}},
     3: {'CC303-M': {'type': 'lec', 'units': 3}, 'CS303-M': {'type': 'lec', 'units': 3}, 'CS321L-M': {'type': 'lab', 'units': 1}, 'CS322-M': {'type': 'lec', 'units': 2}, 'CS343-M': {'type': 'lec', 'units': 3}, 'CS361L-M': {'type': 'lab', 'units': 1}, 'CS362-M': {'type': 'lec', 'units': 2}, 'CSE3-M': {'type': 'lec', 'units': 3}, 'CSE4-M': {'type': 'lec', 'units': 3}},
@@ -75,7 +75,7 @@ subjects = {
 #COMPUTER SCIENCE NON STEM SUBJECTS
 
 # Second Semester
-subjects = {
+subjects_CSN_2 = {
     1: {'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'CC103-M': {'type': 'lec', 'units': 3}, 'CS123--M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'PHYSGENL-M': {'type': 'lab', 'units': 1}, 'PHYSGEN-M': {'type': 'lec', 'units': 4}, 'MATHA35-M': {'type': 'lec', 'units': 5}, 'NSTP2': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}},
     2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'CS201L-M': {'type': 'lab', 'units': 1}, 'CS202--M': {'type': 'lec', 'units': 2}, 'CS221L--M': {'type': 'lab', 'units': 1}, 'CS222--M': {'type': 'lec', 'units': 2}, 'CS243-M': {'type': 'lec', 'units': 3}, 'CS261L-M': {'type': 'lab', 'units': 1}, 'CS262-M': {'type': 'lec', 'units': 2}},
     3: {'CC303-M': {'type': 'lec', 'units': 3}, 'CS303-M': {'type': 'lec', 'units': 3}, 'CS321L-M': {'type': 'lab', 'units': 1}, 'CS322-M': {'type': 'lec', 'units': 2}, 'CS343-M': {'type': 'lec', 'units': 3}, 'CS361L-M': {'type': 'lab', 'units': 1}, 'CS362-M': {'type': 'lec', 'units': 2}, 'CSE3-M': {'type': 'lec', 'units': 3}, 'CSE4-M': {'type': 'lec', 'units': 3}},
@@ -90,7 +90,7 @@ subjects = {
 #INFORMATION TECHNOLOGY SUBJECTS
 
 #Second Semester
-subjects = {
+subjects_IT_2 = {
     1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC3-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IT123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2--M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}},
     2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'IT201L--M': {'type': 'lec', 'units': 1}, 'IT202--M': {'type': 'lec', 'units': 2}, 'IT223-M': {'type': 'lec', 'units': 3}, 'IT241L-M': {'type': 'lab', 'units': 1}, 'IT242-M': {'type': 'lec', 'units': 2}, 'IT261L-M': {'type': 'lec', 'units': 1}, 'IT262-M': {'type': 'lec', 'units': 2}},
     3: {'CC303-M': {'type': 'lec', 'units': 3}, 'GEE11D-M': {'type': 'lec', 'units': 3}, 'IT303--M': {'type': 'lec', 'units': 3}, 'IT323': {'type': 'lec', 'units': 3}, 'IT343_M': {'type': 'lec', 'units': 3}, 'IT363-M': {'type': 'lec', 'units': 3}, 'ITE4-M': {'type': 'lec', 'units': 3}},
@@ -104,7 +104,7 @@ subjects = {
 #INFORMATION TECHNOLOGY NON STEM SUBJECTS
 
 #Second Semester
-subjects = {
+subjects_ITN_2 = {
     1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IT123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2--M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}, 'PHYSGEN-M': {'type': 'lec', 'units': 4}, 'PHYSGENL-M': {'type': 'lab', 'units': 1}},
     2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'IT201L--M': {'type': 'lec', 'units': 1}, 'IT202--M': {'type': 'lec', 'units': 2}, 'IT223-M': {'type': 'lec', 'units': 3}, 'IT241L--M': {'type': 'lab', 'units': 1}, 'IT242--M': {'type': 'lec', 'units': 2}, 'IT261L-M': {'type': 'lec', 'units': 1}, 'IT262-M': {'type': 'lec', 'units': 2}, 'ITE1-M': {'type': 'lec', 'units': 3}, 'PE4-M': {'type': 'lec', 'units': 2}},
     3: {'CC303-M': {'type': 'lec', 'units': 3}, 'GEE11D-M': {'type': 'lec', 'units': 3}, 'IT303--M': {'type': 'lec', 'units': 3}, 'IT323': {'type': 'lec', 'units': 3}, 'IT343_M': {'type': 'lec', 'units': 3}, 'IT363-M': {'type': 'lec', 'units': 3}, 'ITE4-M': {'type': 'lec', 'units': 3}},
@@ -118,7 +118,7 @@ subjects = {
 #INFORMATION SYSTEMS SUBJECTS
 
 #Second Semester
-subjects = {
+subjects_IS_2 = {
     1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC3-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IS123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2--M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}},
     2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'IS203-M': {'type': 'lec', 'units': 3}, 'IS223-M': {'type': 'lec', 'units': 3}, 'IS243-M': {'type': 'lec', 'units': 3}, 'IS263-M': {'type': 'lec', 'units': 3}, 'ISE1-M': {'type': 'lec', 'units': 3}, 'PE4-M': {'type': 'lec', 'units': 2}},
     3: {'CC303-M': {'type': 'lec', 'units': 3}, 'IS303-M': {'type': 'lec', 'units': 3}, 'IS323-M': {'type': 'lec', 'units': 3}, 'IS343-M': {'type': 'lec', 'units': 3}, 'IS363-M': {'type': 'lec', 'units': 3}, 'IS383-M': {'type': 'lec', 'units': 3}, 'ISE4-M': {'type': 'lec', 'units': 3}},
@@ -134,7 +134,7 @@ subjects = {
 #INFORMATION SYSTEMS NON STEM SUBJECTS
 
 #Second Semester
-subjects = {
+subjects_ISN_2 = {
     1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': ''}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IS123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2-M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}, 'PHYSGEN-M': {'type': 'lec', 'units': 4}, 'PHYSGENL-M': {'type': 'lab', 'units': 1}},
     2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'IS203-M': {'type': 'lec', 'units': 3}, 'IS223-M': {'type': 'lec', 'units': 3}, 'IS243-M': {'type': 'lec', 'units': 3}, 'IS263-M': {'type': 'lec', 'units': 3}, 'ISE1-M': {'type': 'lec', 'units': 3}, 'PE4-M': {'type': 'lec', 'units': 2}},
     3: {'CC303-M': {'type': 'lec', 'units': 3}, 'IS303-M': {'type': 'lec', 'units': 3}, 'IS323-M': {'type': 'lec', 'units': 3}, 'IS343-M': {'type': 'lec', 'units': 3}, 'IS363-M': {'type': 'lec', 'units': 3}, 'IS383-M': {'type': 'lec', 'units': 3}, 'ISE4-M': {'type': 'lec', 'units': 3}},
@@ -397,7 +397,7 @@ def preference_score(professor, time_slot):
     return 5
 
 def get_subject_year(subject):
-    for year, subjects_in_year in subjects.items():
+    for year, subjects_in_year in subjects_CS_2.items():
         if subject in subjects_in_year:
             return year
     return None
@@ -414,10 +414,10 @@ def calculate_conflicts(schedule):
             continue
 
         time_slot_start = time_slots[time_slot]['start']
-        if subjects[year][subject]['type'] == 'lec':
-            time_slot_end = time_slot_start + subjects[year][subject]['units']  # 1 hour for lecture
+        if subjects_CS_2[year][subject]['type'] == 'lec':
+            time_slot_end = time_slot_start + subjects_CS_2[year][subject]['units']  # 1 hour for lecture
         else:
-            time_slot_end = time_slot_start + subjects[year][subject]['units'] * 3  # 3 hours for lab
+            time_slot_end = time_slot_start + subjects_CS_2[year][subject]['units'] * 3  # 3 hours for lab
 
         # Check for room conflict
         for (used_time_slot, used_room) in time_room_usage.keys():
@@ -568,8 +568,8 @@ def validate_position(position):
 
         # Validate the duration of each subject based on its units
         year = get_subject_year(subject)
-        subject_units = subjects[year][subject]['units']
-        subject_type = subjects[year][subject]['type']
+        subject_units = subjects_CS_2[year][subject]['units']
+        subject_type = subjects_CS_2[year][subject]['type']
         expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
         actual_duration = time_slots[time_slot]['end'] - time_slots[time_slot]['start']
         if actual_duration != expected_duration:
@@ -609,8 +609,8 @@ def adjust_schedule(schedule):
 def adjust_event(event):
     section, subject, professor, time_slot, room = event
     year = get_subject_year(subject)
-    subject_units = subjects[year][subject]['units']
-    subject_type = subjects[year][subject]['type']
+    subject_units = subjects_CS_2[year][subject]['units']
+    subject_type = subjects_CS_2[year][subject]['type']
     expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
 
     # Adjust the event by changing its time slot or room
@@ -695,7 +695,7 @@ def group_schedule_by_section(schedule):
 
 def main():
     # Initialize swarm
-    swarm = initialize_swarm(swarm_size, sections, subjects, professors, time_slots, rooms)
+    swarm = initialize_swarm(swarm_size, sections, subjects_CS_2, professors, time_slots, rooms)
     #print("Swarm size:", swarm_size)
     #each particle in swarm is an instance or memory address of where the particle is located
     # Initialize gBest to the position of the first particle in the swarm
