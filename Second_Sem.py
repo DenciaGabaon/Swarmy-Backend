@@ -1,36 +1,24 @@
-'''TO DO:
-- highest fitness score so far: 455
-- the higher the fitness score, the better
-
-- VALIDATE SCHEDULES, ROOMS, AND TIMESLOTS: MAY NAG DDOUBLE PA TAS YUNG IBANG SUBJECTS
-    DI NALALAGYAN NG SCHEDULE
-    sa main function if false yung validate function
-     maintain the current sched and skip the update
-        else, update the sched and calculate the fitness
-- UNCOMMENT THE VALIDATION FUNCTION TO SEE THE ERROR
-- LAB AND LEC CONSTRAINTS - done
-- Dapat di lalagpas ung end time ng klase sa hour 13- done
-- double booking of professor - done
-- expected duration not followed - done
-
-- MAX HOURS OF PROFESSORS PER WEEK - not yet done
--prof should have designated program
-
--There are 35 subjects in total:
-    Total subjects for Year 1: 9
-    Total subjects for Year 2: 11
-    Total subjects for Year 3: 9
-    Total subjects for Year 4: 6
--if there are 2 section in first yr and 2 sections in second yr,
-    then there should be 55 list of subs in total'''
-
 import random
 from collections import defaultdict
 import json
 
 
 # Example data structures
-sections = {
+cs_section = {
+    1: ['Section 1A', 'Section 1B'],
+    2: ['Section 2A', 'Section 2B'],
+    3: ['Section 3A'],
+    4: ['Section 4A']
+}
+
+it_section = {
+    1: ['Section 1A', 'Section 1B'],
+    2: ['Section 2A', 'Section 2B'],
+    3: ['Section 3A'],
+    4: ['Section 4A']
+}
+
+is_section = {
     1: ['Section 1A', 'Section 1B'],
     2: ['Section 2A', 'Section 2B'],
     3: ['Section 3A'],
@@ -62,7 +50,7 @@ professors = {
 #Second Semester
 subjects_CS_2 = {
     1: {'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'CC103-M': {'type': 'lec', 'units': 3}, 'CS123-M': {'type': 'lec', 'units': 3}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC3-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'MATHA35-M': {'type': 'lec', 'units': 5}, 'NSTP2-M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}},
-    2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'CS201L-M': {'type': 'lab', 'units': 1}, 'CS202--M': {'type': 'lec', 'units': 2}, 'CS221L--M': {'type': 'lab', 'units': 1}, 'CS222--M': {'type': 'lec', 'units': 2}, 'CS243-M': {'type': 'lec', 'units': 3}, 'CS261L-M': {'type': 'lab', 'units': 1}, 'CS262-M': {'type': 'lec', 'units': 2}, 'PE3-M': {'type': 'lec', 'units': ''}},
+    2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'CS201L-M': {'type': 'lab', 'units': 1}, 'CS202--M': {'type': 'lec', 'units': 2}, 'CS221L--M': {'type': 'lab', 'units': 1}, 'CS222--M': {'type': 'lec', 'units': 2}, 'CS243-M': {'type': 'lec', 'units': 3}, 'CS261L-M': {'type': 'lab', 'units': 1}, 'CS262-M': {'type': 'lec', 'units': 2}, 'PE3-M': {'type': 'lec', 'units': 3}},
     3: {'CC303-M': {'type': 'lec', 'units': 3}, 'CS303-M': {'type': 'lec', 'units': 3}, 'CS321L-M': {'type': 'lab', 'units': 1}, 'CS322-M': {'type': 'lec', 'units': 2}, 'CS343-M': {'type': 'lec', 'units': 3}, 'CS361L-M': {'type': 'lab', 'units': 1}, 'CS362-M': {'type': 'lec', 'units': 2}, 'CSE3-M': {'type': 'lec', 'units': 3}, 'CSE4-M': {'type': 'lec', 'units': 3}},
     4: {'CS403': {'type': 'lab', 'units': 6}, 'CS423': {'type': 'lec', 'units': 3}}
 }
@@ -135,17 +123,24 @@ subjects_IS_2 = {
 
 #Second Semester
 subjects_ISN_2 = {
-    1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': ''}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IS123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2-M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}, 'PHYSGEN-M': {'type': 'lec', 'units': 4}, 'PHYSGENL-M': {'type': 'lab', 'units': 1}},
+    1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IS123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2-M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}, 'PHYSGEN-M': {'type': 'lec', 'units': 4}, 'PHYSGENL-M': {'type': 'lab', 'units': 1}},
     2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'IS203-M': {'type': 'lec', 'units': 3}, 'IS223-M': {'type': 'lec', 'units': 3}, 'IS243-M': {'type': 'lec', 'units': 3}, 'IS263-M': {'type': 'lec', 'units': 3}, 'ISE1-M': {'type': 'lec', 'units': 3}, 'PE4-M': {'type': 'lec', 'units': 2}},
     3: {'CC303-M': {'type': 'lec', 'units': 3}, 'IS303-M': {'type': 'lec', 'units': 3}, 'IS323-M': {'type': 'lec', 'units': 3}, 'IS343-M': {'type': 'lec', 'units': 3}, 'IS363-M': {'type': 'lec', 'units': 3}, 'IS383-M': {'type': 'lec', 'units': 3}, 'ISE4-M': {'type': 'lec', 'units': 3}},
     4: {'IS406-M': {'type': 'lab', 'units': 9}, 'IS423-M': {'type': 'lec', 'units': 3}}
 }
 
+sections = {
+    'cs_section': cs_section,
+    'it_section': it_section,
+    'is_section': is_section
+}
 
-
-
-
-
+# Map the sections to the corresponding subjects
+section_subjects_map = {
+    'cs_section': subjects_CS_2,
+    'it_section': subjects_IT_2,
+    'is_section': subjects_IS_2
+}
 
 rooms = ['Room 322', 'Room 324', 'Room 326','Room 328', 'Room DOST-A', 'Room DOST-B', 'Room BODEGA-A', 'Room BODEGA-b']
 
@@ -242,7 +237,7 @@ class Particle:
         self.pBest_fitness = float('-inf')
 
 
-def initialize_particle(sections, subjects, professors, time_slots, rooms, max_attempts=1000):
+def initialize_particle(sections, section_subjects_map, professors, time_slots, rooms, max_attempts=1000):
     max_classes_per_day = 6  # Set this to the maximum number of classes you want per day
     max_teaching_hours = 30  # Maximum teaching hours allowed per professor
 
@@ -252,10 +247,10 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
         period = 'AM' if 7 <= ts_info['start'] < 12 else 'PM'
         time_slots_by_day[ts_info['day']][period].append((ts_id, ts_info))
 
-        # Sort time slots within each day and period by start time
-        for day in time_slots_by_day:
-            time_slots_by_day[day]['AM'].sort(key=lambda ts: ts[1]['start'])
-            time_slots_by_day[day]['PM'].sort(key=lambda ts: ts[1]['start'])
+    # Sort time slots within each day and period by start time
+    for day in time_slots_by_day:
+        time_slots_by_day[day]['AM'].sort(key=lambda ts: ts[1]['start'])
+        time_slots_by_day[day]['PM'].sort(key=lambda ts: ts[1]['start'])
 
     for _ in range(max_attempts):
         schedule = []
@@ -266,126 +261,116 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
         professor_time_slots = defaultdict(set)  # Store the used time slots for each professor
         professor_hours_taught = defaultdict(int) # Store the total teaching hours for each professor
 
-        for year, year_sections in sections.items():
-            for section in year_sections:
-                subject_pool = subjects[year].copy()  # Create a copy of the subjects for this year
-                while subject_pool:  # While there are still subjects to be scheduled
-                    subject = random.choice(list(subject_pool.keys()))
-                    del subject_pool[subject]  # Remove the subject from the pool
+        for section_type, year_sections in section_subjects_map.items():
+            for year, sections in year_sections.items():
+                for section in sections:
+                    # Check the section type and load the appropriate subjects
+                    if section_type == 'cs_section':
+                        subject_pool = subjects_CS_2[year].copy()
+                    elif section_type == 'it_section':
+                        subject_pool = subjects_IT_2[year].copy()
+                    elif section_type == 'is_section':
+                        subject_pool = subjects_IS_2[year].copy()
+                        while subject_pool:  # While there are still subjects to be scheduled
+                            subject = random.choice(list(subject_pool.keys()))
+                            del subject_pool[subject]  # Remove the subject from the pool
 
-                    # Skip this subject if it has already been assigned to this section
-                    if subject in section_assigned_subjects[section]:
-                        continue
+                            # Skip this subject if it has already been assigned to this section
+                            if subject in section_assigned_subjects[section]:
+                                continue
 
-                    available_professors = [prof for prof in professors if subject in professors[prof]['preferred_subjects']]
-                    if not available_professors:
-                        #print(f"No preferred professor for {subject}. Using any professor.")
-                        available_professors = list(professors.keys())  # Fallback to any professor if still empty
+                            available_professors = [prof for prof in professors if subject in professors[prof]['preferred_subjects']]
+                            if not available_professors:
+                                #print(f"No preferred professor for {subject}. Using any professor.")
+                                available_professors = list(professors.keys())  # Fallback to any professor if still empty
 
-                    subject_units = subjects[year][subject]['units']
-                    subject_type = subjects[year][subject]['type']
-                    expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
+                            print("subject unit:", subject_pool[subject]['units'])
+                            subject_units = subject_pool[subject]['units']
+                            subject_type = subject_pool[subject]['type']
+                            expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
+                            print("subject", subject)
+                            print("subject_units", subject_units)
+                            print("subject_type", subject_type)
+                            print("expected duration", expected_duration)
 
-                     # Check if any professor has not exceeded the teaching hours limit
-                    professors_within_limit = [prof for prof in available_professors if professor_hours_taught[prof] + expected_duration <= max_teaching_hours]
+                            professors_within_limit = [prof for prof in available_professors if professor_hours_taught[prof] + expected_duration <= max_teaching_hours]
 
-                    if not professors_within_limit:
-                        #print(f"No professor available within the teaching hours limit for {subject} in {section}. Skipping.")
-                        professor = random.choice(available_professors)  # Fallback to any professor if still empty
-                    else:
-                        #print(f"Available professors within the teaching hours limit for {subject} in {section}: {professors_within_limit}")
-                        professor = random.choice(professors_within_limit)
+                            if not professors_within_limit:
+                                professor = random.choice(available_professors)  # Fallback to any professor if still empty
+                            else:
+                                professor = random.choice(professors_within_limit)
 
-                    #print(f"Expected Duration for {subject} in {section}: {expected_duration}")
+                            # Determine preferred period (AM/PM) for the professor
+                            if professors[professor]['preferred_time']:
+                                preferred_period = 'AM' if 'AM' in professors[professor]['preferred_time'] else 'PM'
+                            else:
+                                preferred_period = None
 
-                    # Determine preferred period (AM/PM) for the professor
-                    if professors[professor]['preferred_time']:
-                        preferred_period = 'AM' if 'AM' in professors[professor]['preferred_time'] else 'PM'
-                        #print(f"Preferred time of {professor} for {subject}: {professors[professor]['preferred_time']}")
-                    else:
-                        #print(f"No preferred time for {professor}. Using any period.")
-                        preferred_period = None
+                            # Find all ranges of consecutive time slots that can accommodate the expected duration
+                            suitable_time_slot_ranges = []
+                            preferred_time_slot_ranges = []
 
-                    # Find all ranges of consecutive time slots that can accommodate the expected duration
-                    suitable_time_slot_ranges = []
-                    preferred_time_slot_ranges = []
+                            # Check consecutive time slots within each day
+                            for day, periods in time_slots_by_day.items():
+                                for period, slots in periods.items():
+                                    for i in range(len(slots) - expected_duration + 1):
+                                        time_slot_range = slots[i:i + expected_duration]
+                                        time_slot_ids = [ts[0] for ts in time_slot_range]
 
-                    # Check consecutive time slots within each day
-                    for day, periods in time_slots_by_day.items():
-                        for period, slots in periods.items():
-                            for i in range(len(slots) - expected_duration + 1):
-                                time_slot_range = slots[i:i + expected_duration]
-                                time_slot_ids = [ts[0] for ts in time_slot_range]
+                                        # Check if all time slots in the range are available for the section and professor
+                                        if all(ts not in section_time_slots[section] and ts not in professor_time_slots[professor] for ts in time_slot_ids):
+                                            if all(section_day_classes[section][day] < max_classes_per_day for ts in time_slot_ids):
+                                                suitable_time_slot_ranges.append(time_slot_ids)
+                                                # Prioritize the preferred time slot ranges
+                                                if period == preferred_period:
+                                                    preferred_time_slot_ranges.append(time_slot_ids)
 
-                                # Check if all time slots in the range are available for the section and professor
-                                if all(ts not in section_time_slots[section] and ts not in professor_time_slots[professor] for ts in time_slot_ids):
-                                    if all(section_day_classes[section][day] < max_classes_per_day for ts in time_slot_ids):
-                                        suitable_time_slot_ranges.append(time_slot_ids)
-                                        # Prioritize the preferred time slot ranges
-                                        if period == preferred_period:
-                                            #print(f"Preferred Time Slot Range found for {subject} in {section} on {day} {period}. Using it.")
-                                            preferred_time_slot_ranges.append(time_slot_ids)
+                            # Prioritize preferred time slot ranges if available
+                            if preferred_time_slot_ranges:
+                                selected_time_slot_ranges = preferred_time_slot_ranges
+                            else:
+                                selected_time_slot_ranges = suitable_time_slot_ranges
 
-                    # Prioritize preferred time slot ranges if available
-                    if preferred_time_slot_ranges:
-                        selected_time_slot_ranges = preferred_time_slot_ranges
-                        #print(f"Preferred Time Slot Range found for {subject} in {section}. Using it.")
-                    else:
-                        #print(f"No preferred time slot range found for {subject} in {section}. Using any suitable range.")
-                        selected_time_slot_ranges = suitable_time_slot_ranges
+                            if not selected_time_slot_ranges:  # If no suitable range of time slots is found, skip this subject
+                                continue
 
-                    if not selected_time_slot_ranges:  # If no suitable range of time slots is found, skip this subject
-                        #print(f"No suitable time slot range found for {subject} in {section}. Skipping.")
-                        continue
+                            # Randomly select a suitable range of time slots
+                            time_slot_ids = random.choice(suitable_time_slot_ranges)
 
-                    # Randomly select a suitable range of time slots
-                    time_slot_ids = random.choice(suitable_time_slot_ranges)
-                    #print(f"Selected Time Slots for {subject} in {section}: {time_slot_ids}")
+                            # Add the used time slots to the section's list and increment the number of classes for each day
+                            section_time_slots[section].extend(time_slot_ids)
+                            professor_time_slots[professor].update(time_slot_ids)
+                            for ts in time_slot_ids:
+                                section_day_classes[section][time_slots[ts]['day']] += 1
 
-                    # Add the used time slots to the section's list and increment the number of classes for each day
-                    section_time_slots[section].extend(time_slot_ids)
-                    professor_time_slots[professor].update(time_slot_ids)
-                    for ts in time_slot_ids:
-                        section_day_classes[section][time_slots[ts]['day']] += 1
+                            room = random.choice(rooms)
 
-                    room = random.choice(rooms)
+                            # Add an entry to the schedule for each time slot in the range
+                            for time_slot in time_slot_ids:
+                                schedule.append((section, subject, professor, time_slot, room))
 
-                    # Add an entry to the schedule for each time slot in the range
-                    for time_slot in time_slot_ids:
-                        schedule.append((section, subject, professor, time_slot, room))
-                        #print(f"Added {subject} in {section} at {time_slot} with {professor} in {room}")
+                            # Add the subject to the section's assigned subjects
+                            section_assigned_subjects[section].add(subject)
 
-                    # Add the subject to the section's assigned subjects
-                    section_assigned_subjects[section].add(subject)
-
-                    # Update the total teaching hours for the professor
-                    professor_hours_taught[professor] += expected_duration
-
-                    # Check if the professor has exceeded the maximum teaching hours
-                    #if professor_hours_taught[professor] > max_teaching_hours:
-                        #print(f"Professor {professor} has exceeded the maximum teaching hours. {professor_hours_taught[professor]}")
+                            # Update the total teaching hours for the professor
+                            professor_hours_taught[professor] += expected_duration
 
 
         # Validate the generated schedule
         validated_schedule = validate_position(schedule)
         if validated_schedule:
-            #print("Valid Schedule Found!", validated_schedule)
             return schedule
 
     # If no valid schedule is found after maximum attempts, return None
     return None
 
 
-def initialize_swarm(swarm_size, sections, subjects, professors, time_slots, rooms):
+def initialize_swarm(swarm_size, sections, section_subjects_map, professors, time_slots, rooms):
     swarm = []
     for _ in range(swarm_size):
-        position = None
-        while position is None:
-            position = initialize_particle(sections, subjects, professors, time_slots, rooms)
-            #print("Initial Position: ", position)
-            position, _ = adjust_schedule(position)
-        velocity = [0] * len(position)  # Initial velocity
-        swarm.append(Particle(position, velocity))
+        particle = initialize_particle(sections, section_subjects_map, professors, time_slots, rooms)
+        if particle is not None:
+            swarm.append(particle)
     return swarm
 
 
@@ -435,8 +420,7 @@ def calculate_conflicts(schedule):
             used_time_slot_end = time_slots[used_time_slot]['end']
 
             if professor == used_professor and not (time_slot_end <= used_time_slot_start or time_slot_start >= used_time_slot_end):
-                #print(f"Professor conflict detected for {professor} at {time_slot}.")
-                conflicts += 1
+              conflicts += 1
         time_professor_usage[(time_slot, professor)] = True
 
     return conflicts
@@ -466,7 +450,6 @@ def convert_to_numeric(position):
 
 def update_velocity(particle, gBest, w, c1, c2):
     new_velocity = []
-    #print("Particle Position: ", particle.position)
     for i in range(len(particle.position)):
         if i < len(gBest):  # Check if the index exists in gBest
             gBest_num = convert_to_numeric(gBest[i])
@@ -484,20 +467,10 @@ def update_velocity(particle, gBest, w, c1, c2):
         else:
             print(f"Index {i} does not exist in gBest.")
 
-        #print("new velocity: ", new_velocity)
     return new_velocity
 
 
 def update_position(particle):
-    """
-    Update the position of a particle based on its velocity and ensure it is valid.
-
-    Parameters:
-    particle (Particle): The particle whose position is being updated.
-
-    Returns:
-    list: The new, validated position of the particle.
-    """
     new_position = []
     for i in range(len(particle.position)):
         current_pos = particle.position[i]
@@ -633,32 +606,6 @@ def adjust_event(event):
 
     return tuple(event)
 
-'''def adjust_event(event):
-    section, subject, professor, time_slot, room = event
-    year = get_subject_year(subject)
-    subject_units = subjects[year][subject]['units']
-    subject_type = subjects[year][subject]['type']
-    expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
-
-    # Adjust the event by changing its time slot or room
-    event = list(event)  # Convert tuple to list for modification
-
-    # Choose a new random time slot that can accommodate the expected duration
-    available_time_slots = [ts for ts in time_slots if time_slots[ts]['end'] - time_slots[ts]['start'] >= expected_duration]
-    if available_time_slots:
-        event[3] = random.choice(available_time_slots)
-
-    event[4] = random.choice(rooms)  # Choose a new random room
-
-    return tuple(event)
-'''
-# Example usage:
-
-
-
-'''def validate_position(position):
-    # Validate the position (e.g., no double-booking)
-    return position'''
 
 
 
@@ -694,16 +641,15 @@ def group_schedule_by_section(schedule):
 
 
 def main():
+    #print(section_subjects_map[sections].items())
     # Initialize swarm
     swarm = initialize_swarm(swarm_size, sections, subjects_CS_2, professors, time_slots, rooms)
-    #print("Swarm size:", swarm_size)
-    #each particle in swarm is an instance or memory address of where the particle is located
     # Initialize gBest to the position of the first particle in the swarm
     gBest = None
     gBest_fitness = float('-inf')
-    #print("initial gBest: ", gBest)
     n = 0
-    #print("Swarm Initialized:", swarm)
+
+
     # Evaluate initial fitness
     for particle in swarm:
         particle.fitness = calculate_fitness(particle.position)
@@ -712,22 +658,15 @@ def main():
         if particle.fitness > gBest_fitness:
             gBest = particle.position
             gBest_fitness = particle.fitness
-            #print("particle.fitness > gBest_fitness: ", gBest)
+
         # Iterate
     for iteration in range(max_iterations):
         for particle in swarm:
-            #print(particle, gBest, w, c1, c2)
-            #print("Particle Position:", particle.position)
-            #print("Particle Velocity:", particle.velocity)
             particle.velocity = update_velocity(particle, gBest, w, c1, c2)
-            #print("PARTICLE.position TYPE: ", type(particle.position))
-            #print("before update: ", particle.position)
-            #particle_instance = Particle(list(particle.), [0] * len(particle))  # Create a Particle instance
             particle.position, _ = adjust_schedule(particle.position)
             particle.position = update_position(particle)
-            #print("after update: ", particle.position)
             particle.position = validate_position(particle.position)
-            #print("after validate: ", particle.position)
+
 
             if particle.position:
                 particle.fitness = calculate_fitness(particle.position)
@@ -735,18 +674,13 @@ def main():
                     particle.pBest = particle.position
                     particle.pBest_fitness = particle.fitness
                 if particle.fitness > gBest_fitness:
-                    #print("particle position in >gBest:", particle.position)
                     gBest = particle.position
                     gBest_fitness = particle.fitness
             else:
                 print("Skipping fitness calculation due to invalid position.")
 
-    #print("Final gBest:", gBest)
-
-    # The gBest now holds the best found schedule
-    # This print statement is for the division per section of the overall schedule
     grouped_schedule = group_schedule_by_section(gBest)
-    #print("Optimized Schedule:")
+
     for section, entries in grouped_schedule.items():
         print(f"\n{section}:")
         for entry in entries:
@@ -754,22 +688,15 @@ def main():
             print(f"{n}. {entry}")
     print("\nFitness Score:", gBest_fitness)
     print_timetable(gBest)
-    # exporting to json
-    # Convert the schedule to a format suitable for JSON
+
     json_schedule = {section: [list(entry) for entry in entries] for section, entries in grouped_schedule.items()}
 
     # Save the schedule to a JSON file
     with open('schedule.json', 'w') as f:
         json.dump(json_schedule, f, indent=4)
 
-
-    # The gBest now holds the best found schedule
-    # This print statement is for you to see the overall schedule
     '''print("Optimized Schedule:\n" + '\n'.join(f"{n+i+1}. {entry}" for i, entry in enumerate(gBest)))
     print("Fitness Score:", gBest_fitness)'''
 
 if __name__ == "__main__":
     main()
-
-
-
