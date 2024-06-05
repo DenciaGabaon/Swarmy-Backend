@@ -22,7 +22,16 @@
     Total subjects for Year 3: 9
     Total subjects for Year 4: 6
 -if there are 2 section in first yr and 2 sections in second yr,
-    then there should be 55 list of subs in total'''
+    then there should be 55 list of subs in total
+
+I FOUND A POSSIBLE EASIER SOLUTION
+
+AFTER THE VARIABLE SWARM IS DONE
+WE CAN TRY to run for swarm2 where the it program is
+since nakaset naman na ung for rooms and prof sa swarm1 edi macacarry over siya dapat sa swarm2
+so pag nagrun ung swarm2 dapat macacarry over niya ung mga un para pag nagschedule siya alam nia ung mga naset na sa swarm1
+
+'''
 
 import random
 from collections import defaultdict
@@ -31,6 +40,13 @@ import json
 
 # Example data structures
 sections = {
+    1: ['Section 1A', 'Section 1B'],
+    2: ['Section 2A', 'Section 2B'],
+    3: ['Section 3A'],
+    4: ['Section 4A']
+}
+
+sections_it = {
     1: ['Section 1A', 'Section 1B'],
     2: ['Section 2A', 'Section 2B'],
     3: ['Section 3A'],
@@ -62,7 +78,7 @@ professors = {
 #Second Semester
 subjects_CS_2 = {
     1: {'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'CC103-M': {'type': 'lec', 'units': 3}, 'CS123-M': {'type': 'lec', 'units': 3}, 'GEC2-M': {'type': 'lec', 'units': 3}, 'GEC3-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'MATHA35-M': {'type': 'lec', 'units': 5}, 'NSTP2-M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}},
-    2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'CS201L-M': {'type': 'lab', 'units': 1}, 'CS202--M': {'type': 'lec', 'units': 2}, 'CS221L--M': {'type': 'lab', 'units': 1}, 'CS222--M': {'type': 'lec', 'units': 2}, 'CS243-M': {'type': 'lec', 'units': 3}, 'CS261L-M': {'type': 'lab', 'units': 1}, 'CS262-M': {'type': 'lec', 'units': 2}, 'PE3-M': {'type': 'lec', 'units': ''}},
+    2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'CS201L-M': {'type': 'lab', 'units': 1}, 'CS202--M': {'type': 'lec', 'units': 2}, 'CS221L--M': {'type': 'lab', 'units': 1}, 'CS222--M': {'type': 'lec', 'units': 2}, 'CS243-M': {'type': 'lec', 'units': 3}, 'CS261L-M': {'type': 'lab', 'units': 1}, 'CS262-M': {'type': 'lec', 'units': 2}, 'PE3-M': {'type': 'lec', 'units': 3 }},
     3: {'CC303-M': {'type': 'lec', 'units': 3}, 'CS303-M': {'type': 'lec', 'units': 3}, 'CS321L-M': {'type': 'lab', 'units': 1}, 'CS322-M': {'type': 'lec', 'units': 2}, 'CS343-M': {'type': 'lec', 'units': 3}, 'CS361L-M': {'type': 'lab', 'units': 1}, 'CS362-M': {'type': 'lec', 'units': 2}, 'CSE3-M': {'type': 'lec', 'units': 3}, 'CSE4-M': {'type': 'lec', 'units': 3}},
     4: {'CS403': {'type': 'lab', 'units': 6}, 'CS423': {'type': 'lec', 'units': 3}}
 }
@@ -135,7 +151,7 @@ subjects_IS_2 = {
 
 #Second Semester
 subjects_ISN_2 = {
-    1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': ''}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IS123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2-M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}, 'PHYSGEN-M': {'type': 'lec', 'units': 4}, 'PHYSGENL-M': {'type': 'lab', 'units': 1}},
+    1: {'CC103-M': {'type': 'lec', 'units': 3}, 'CC141L-M': {'type': 'lab', 'units': 1}, 'CC142-M': {'type': 'lec', 'units': 2}, 'GEC1-M': {'type': 'lec', 'units': 3}, 'GEC5-M': {'type': 'lec', 'units': 3}, 'IS123-M': {'type': 'lec', 'units': 3}, 'MATHSTAT03-M': {'type': 'lec', 'units': 3}, 'NSTP2-M': {'type': 'lec', 'units': 3}, 'PE2-M': {'type': 'lec', 'units': 2}, 'PHYSGEN-M': {'type': 'lec', 'units': 4}, 'PHYSGENL-M': {'type': 'lab', 'units': 1}},
     2: {'CC201L-M': {'type': 'lab', 'units': 1}, 'CC202-M': {'type': 'lec', 'units': 2}, 'CC223-M': {'type': 'lec', 'units': 3}, 'IS203-M': {'type': 'lec', 'units': 3}, 'IS223-M': {'type': 'lec', 'units': 3}, 'IS243-M': {'type': 'lec', 'units': 3}, 'IS263-M': {'type': 'lec', 'units': 3}, 'ISE1-M': {'type': 'lec', 'units': 3}, 'PE4-M': {'type': 'lec', 'units': 2}},
     3: {'CC303-M': {'type': 'lec', 'units': 3}, 'IS303-M': {'type': 'lec', 'units': 3}, 'IS323-M': {'type': 'lec', 'units': 3}, 'IS343-M': {'type': 'lec', 'units': 3}, 'IS363-M': {'type': 'lec', 'units': 3}, 'IS383-M': {'type': 'lec', 'units': 3}, 'ISE4-M': {'type': 'lec', 'units': 3}},
     4: {'IS406-M': {'type': 'lab', 'units': 9}, 'IS423-M': {'type': 'lec', 'units': 3}}
@@ -265,7 +281,7 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
         section_assigned_subjects = defaultdict(set)  # Store the assigned subjects for each section
         professor_time_slots = defaultdict(set)  # Store the used time slots for each professor
         professor_hours_taught = defaultdict(int) # Store the total teaching hours for each professor
-
+        print(subjects)
         for year, year_sections in sections.items():
             for section in year_sections:
                 subject_pool = subjects[year].copy()  # Create a copy of the subjects for this year
@@ -684,7 +700,6 @@ def print_timetable(schedule):
                 print(f"    {time_slot}: {subject} with {professor} in {room}")
 
 
-
 def group_schedule_by_section(schedule):
     grouped_schedule = defaultdict(list)
     for entry in schedule:
@@ -696,6 +711,7 @@ def group_schedule_by_section(schedule):
 def main():
     # Initialize swarm
     swarm = initialize_swarm(swarm_size, sections, subjects_CS_2, professors, time_slots, rooms)
+
     #print("Swarm size:", swarm_size)
     #each particle in swarm is an instance or memory address of where the particle is located
     # Initialize gBest to the position of the first particle in the swarm
@@ -742,6 +758,7 @@ def main():
                 print("Skipping fitness calculation due to invalid position.")
 
     #print("Final gBest:", gBest)
+    #swarm2 = initialize_swarm(swarm_size, sections_it, subjects_IT_2, professors, time_slots, rooms)
 
     # The gBest now holds the best found schedule
     # This print statement is for the division per section of the overall schedule
