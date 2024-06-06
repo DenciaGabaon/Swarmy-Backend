@@ -370,6 +370,7 @@ def initialize_particle(sections, subjects, professors, time_slots, rooms, max_a
 
 
         # Validate the generated schedule
+        print("SChedule: ", schedule)
         validated_schedule = validate_position(schedule)
         if validated_schedule:
             #print("Valid Schedule Found!", validated_schedule)
@@ -400,6 +401,7 @@ def preference_score(professor, time_slot):
     return 5
 
 def get_subject_year(subject):
+    print("Subject: ", subject)
     for year, subjects_in_year in subjects_CS_1.items():
         if subject in subjects_in_year:
             return year
@@ -543,6 +545,12 @@ def validate_position(position):
     while i < len(position):
         section, subject, professor, time_slot, room = position[i]
 
+        print("professor: ", professor)
+        print("time_slot: ", time_slot)
+        print("room: ", room)
+        print("section: ", section)
+        print("subject: ", subject)
+
         # Check for double booking for professors
         if professor in professor_schedule and time_slot in professor_schedule[professor]:
 
@@ -569,8 +577,12 @@ def validate_position(position):
             continue  # Skip the increment of i
         section_subjects[section].add(subject)
 
+        print("section subs: ", section_subjects)
+
+
         # Validate the duration of each subject based on its units
         year = get_subject_year(subject)
+        print("Year: ", year)
         subject_units = subjects_CS_1[year][subject]['units']
         subject_type = subjects_CS_1[year][subject]['type']
         expected_duration = subject_units * 3 if subject_type == 'lab' else subject_units
