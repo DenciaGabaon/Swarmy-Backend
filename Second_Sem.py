@@ -676,6 +676,30 @@ def update_velocity(particle, gBest, w, c1, c2):
             new_velocity.append(w * (particle.velocity[i] if particle.velocity else 0) + cognitive + social)
     return new_velocity
 
+# def update_position(particle):
+#     new_position = []
+#     num_positions = len(num_to_position)
+#
+#     if num_positions == 0:
+#         raise ValueError("The num_to_position dictionary is empty. Ensure it is properly initialized.")
+#
+#
+#     for i in range(len(particle.position)):
+#         current_pos = particle.position[i]
+#         current_pos_num = convert_to_numeric(current_pos)
+#
+#         new_pos_num = (round(current_pos_num + particle.velocity[i]) % num_positions)
+#
+#         if new_pos_num < 0:
+#             new_pos_num += num_positions
+#
+#         new_pos = convert_from_numeric(new_pos_num)
+#         new_position.append(new_pos)
+#
+#     return new_position
+
+
+
 def update_position(particle):
     new_position = []
     num_positions = len(num_to_position)
@@ -683,9 +707,16 @@ def update_position(particle):
     if num_positions == 0:
         raise ValueError("The num_to_position dictionary is empty. Ensure it is properly initialized.")
 
+    # Handle the case where particle.velocity is not correctly initialized
+    if not hasattr(particle, 'velocity') or len(particle.velocity) != len(particle.position):
+        print("Particle velocity is not correctly initialized. Initializing with default values.")
+        particle.velocity = [0] * len(particle.position)  # Initialize with default velocity values
+
     for i in range(len(particle.position)):
         current_pos = particle.position[i]
         current_pos_num = convert_to_numeric(current_pos)
+
+        print(f"Updating position {i}: current_pos = {current_pos}, current_pos_num = {current_pos_num}")
 
         new_pos_num = (round(current_pos_num + particle.velocity[i]) % num_positions)
 
@@ -695,8 +726,9 @@ def update_position(particle):
         new_pos = convert_from_numeric(new_pos_num)
         new_position.append(new_pos)
 
-    return new_position
+        print(f"New position {i}: new_pos_num = {new_pos_num}, new_pos = {new_pos}")
 
+    return new_position
 
 
 
